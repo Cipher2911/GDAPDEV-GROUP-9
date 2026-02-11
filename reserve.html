@@ -2,151 +2,143 @@
 <html>
 <head>
     <title>Reserve a Slot</title>
-    <script>
-        function showLabTable() {
-            // 1. Get the dropdown element
-            var selector = document.getElementById("lab-select");
-            var selectedLab = selector.value;
-
-            // 2. Hide all lab tables first
-            document.getElementById("table-lab-a").style.display = "none";
-            document.getElementById("table-lab-b").style.display = "none";
-            document.getElementById("table-mac-lab").style.display = "none";
-
-            // 3. Show the table that matches the selection
-            if (selectedLab === "A") {
-                document.getElementById("table-lab-a").style.display = "block";
-            } else if (selectedLab === "B") {
-                document.getElementById("table-lab-b").style.display = "block";
-            } else if (selectedLab === "Mac") {
-                document.getElementById("table-mac-lab").style.display = "block";
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body style="font-family: Arial, sans-serif; margin: 0;">
+<body>
 
-    <div style="padding: 20px; background-color: #333; color: white; overflow: hidden;">
-        <span style="font-size: 24px; font-weight: bold;">YOUR LOGO</span>
-        <a href="#" style="float: right; color: white; text-decoration: none; padding-top: 5px;">Log In</a>
+    <div class="header">
+        <span class="logo">YOUR LOGO</span>
+        <a href="login.html" class="logout-link">Log In</a>
     </div>
 
-    <div style="padding: 40px; text-align: center;">
+    <div class="reserve-container">
         
         <h2>Reserve a Computer Lab Slot</h2>
 
-        <label for="lab-select"><strong>Choose a Lab:</strong></label>
-        <select id="lab-select" onchange="showLabTable()" style="padding: 5px; margin-bottom: 20px;">
-            <option value="A">Computer Lab A (Science Bldg)</option>
-            <option value="B">Computer Lab B (Library)</option>
-            <option value="Mac">Mac Lab (Design Dept)</option>
-        </select>
+        <div class="selection-area">
+            <label for="lab-select">Choose a Lab:</label>
+            <select id="lab-select" class="lab-dropdown">
+                <option value="A">Computer Lab A (Science Bldg)</option>
+                <option value="B">Computer Lab B (Library)</option>
+                <option value="Mac">Mac Lab (Design Dept)</option>
+            </select>
+        </div>
 
-        <br><br>
-
-        <p style="color: red; font-style: italic;">
+        <p class="note-text">
             * Note: You must be a registered student to reserve a seat.
         </p>
 
-        <div id="table-lab-a">
-            <h3 style="color: #333;">Schedule for: Science Building</h3>
-            <table border="1" cellpadding="10" cellspacing="0" style="margin: 0 auto; width: 80%; text-align: left;">
-                <tr style="background-color: #f2f2f2;">
-                    <th>Time Slot</th>
-                    <th>Station</th>
-                    <th>Status</th>
-                    <th>Reserved By</th>
-                    <th>Action</th>
-                </tr>
-                <tr>
-                    <td>9:00 AM - 10:00 AM</td>
-                    <td>PC-01</td>
-                    <td style="color: green;">Available</td>
-                    <td>-</td>
-                    <td><button>Reserve This Spot</button></td>
-                </tr>
-                <tr>
-                    <td>9:00 AM - 10:00 AM</td>
-                    <td>PC-02</td>
-                    <td style="color: orange;">Reserved</td>
-                    <td><a href="user_profile.html">Felix Kjellberg</a></td>
-                    <td><button disabled>Unavailable</button></td>
-                </tr>
-                <tr>
-                    <td>9:00 AM - 10:00 AM</td>
-                    <td>PC-03</td>
-                    <td style="color: orange;">Reserved</td>
-                    <td><a href="user_profile.html">Mark Fishbach</a></td>
-                    <td><button disabled>Unavailable</button></td>
-                </tr>
+        <div id="table-lab-a" class="lab-section">
+            <h3>Schedule for: Science Building</h3>
+            <table class="lab-table">
+                <thead>
+                    <tr>
+                        <th>Time Slot</th>
+                        <th>Station</th>
+                        <th>Status</th>
+                        <th>Reserved By</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>9:00 AM - 10:00 AM</td>
+                        <td>PC-01</td>
+                        <td class="status-available">Available</td>
+                        <td>-</td>
+                        <td><button class="reserve-btn">Reserve This Spot</button></td>
+                    </tr>
+                    <tr>
+                        <td>9:00 AM - 10:00 AM</td>
+                        <td>PC-02</td>
+                        <td class="status-reserved">Reserved</td>
+                        <td><a href="user_profile.html">Felix Kjellberg</a></td>
+                        <td><button class="disabled-btn" disabled>Unavailable</button></td>
+                    </tr>
+                    <tr>
+                        <td>9:00 AM - 10:00 AM</td>
+                        <td>PC-03</td>
+                        <td class="status-reserved">Reserved</td>
+                        <td><a href="user_profile.html">Mark Fishbach</a></td>
+                        <td><button class="disabled-btn" disabled>Unavailable</button></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
 
-        <div id="table-lab-b" style="display: none;">
-            <h3 style="color: #333;">Schedule for: Library</h3>
-            <table border="1" cellpadding="10" cellspacing="0" style="margin: 0 auto; width: 80%; text-align: left;">
-                <tr style="background-color: #f2f2f2;">
-                    <th>Time Slot</th>
-                    <th>Station</th>
-                    <th>Status</th>
-                    <th>Reserved By</th>
-                    <th>Action</th>
-                </tr>
-                <tr>
-                    <td>9:00 AM - 10:00 AM</td>
-                    <td>LIB-01</td>
-                    <td style="color: orange;">Reserved</td>
-                    <td><em>Anonymous</em></td>
-                    <td><button disabled>Unavailable</button></td>
-                </tr>
-                <tr>
-                    <td>9:00 AM - 10:00 AM</td>
-                    <td>LIB-02</td>
-                    <td style="color: green;">Available</td>
-                    <td>-</td>
-                    <td><button>Reserve This Spot</button></td>
-                </tr>
-                <tr>
-                    <td>10:00 AM - 11:00 AM</td>
-                    <td>LIB-01</td>
-                    <td style="color: orange;">Reserved</td>
-                    <td><a href="user_profile.html">Hermione G.</a></td>
-                    <td><button disabled>Unavailable</button></td>
-                </tr>
+        <div id="table-lab-b" class="lab-section hidden">
+            <h3>Schedule for: Library</h3>
+            <table class="lab-table">
+                <thead>
+                    <tr>
+                        <th>Time Slot</th>
+                        <th>Station</th>
+                        <th>Status</th>
+                        <th>Reserved By</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>9:00 AM - 10:00 AM</td>
+                        <td>LIB-01</td>
+                        <td class="status-reserved">Reserved</td>
+                        <td><em>Anonymous</em></td>
+                        <td><button class="disabled-btn" disabled>Unavailable</button></td>
+                    </tr>
+                    <tr>
+                        <td>9:00 AM - 10:00 AM</td>
+                        <td>LIB-02</td>
+                        <td class="status-available">Available</td>
+                        <td>-</td>
+                        <td><button class="reserve-btn">Reserve This Spot</button></td>
+                    </tr>
+                    <tr>
+                        <td>10:00 AM - 11:00 AM</td>
+                        <td>LIB-01</td>
+                        <td class="status-reserved">Reserved</td>
+                        <td><a href="user_profile.html">Hermione G.</a></td>
+                        <td><button class="disabled-btn" disabled>Unavailable</button></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
 
-        <div id="table-mac-lab" style="display: none;">
-            <h3 style="color: #333;">Schedule for: Design Dept</h3>
-            <table border="1" cellpadding="10" cellspacing="0" style="margin: 0 auto; width: 80%; text-align: left;">
-                <tr style="background-color: #f2f2f2;">
-                    <th>Time Slot</th>
-                    <th>Station</th>
-                    <th>Status</th>
-                    <th>Reserved By</th>
-                    <th>Action</th>
-                </tr>
-                <tr>
-                    <td>9:00 AM - 10:00 AM</td>
-                    <td>MAC-01</td>
-                    <td style="color: orange;">Reserved</td>
-                    <td><a href="user_profile.html">M. Brownlee</a></td>
-                    <td><button disabled>Unavailable</button></td>
-                </tr>
-                <tr>
-                    <td>9:00 AM - 10:00 AM</td>
-                    <td>MAC-02</td>
-                    <td style="color: orange;">Reserved</td>
-                    <td><a href="user_profile.html">Linus S.</a></td>
-                    <td><button disabled>Unavailable</button></td>
-                </tr>
-                <tr>
-                    <td>10:00 AM - 11:00 AM</td>
-                    <td>MAC-01</td>
-                    <td style="color: green;">Available</td>
-                    <td>-</td>
-                    <td><button>Reserve This Spot</button></td>
-                </tr>
+        <div id="table-mac-lab" class="lab-section hidden">
+            <h3>Schedule for: Design Dept</h3>
+            <table class="lab-table">
+                <thead>
+                    <tr>
+                        <th>Time Slot</th>
+                        <th>Station</th>
+                        <th>Status</th>
+                        <th>Reserved By</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>9:00 AM - 10:00 AM</td>
+                        <td>MAC-01</td>
+                        <td class="status-reserved">Reserved</td>
+                        <td><a href="user_profile.html">M. Brownlee</a></td>
+                        <td><button class="disabled-btn" disabled>Unavailable</button></td>
+                    </tr>
+                    <tr>
+                        <td>9:00 AM - 10:00 AM</td>
+                        <td>MAC-02</td>
+                        <td class="status-reserved">Reserved</td>
+                        <td><a href="user_profile.html">Linus S.</a></td>
+                        <td><button class="disabled-btn" disabled>Unavailable</button></td>
+                    </tr>
+                    <tr>
+                        <td>10:00 AM - 11:00 AM</td>
+                        <td>MAC-01</td>
+                        <td class="status-available">Available</td>
+                        <td>-</td>
+                        <td><button class="reserve-btn">Reserve This Spot</button></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
 
@@ -154,6 +146,8 @@
         <a href="home.html">Back to Home</a>
 
     </div>
+
+    <script src="script.js"></script>
 
 </body>
 </html>

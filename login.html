@@ -2,14 +2,15 @@
 <html>
 <head>
     <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body style="font-family: Arial, sans-serif; margin: 0;">
+<body>
 
-    <div style="padding: 20px; background-color: #333; color: white;">
-        <span style="font-size: 24px; font-weight: bold;">LOGO</span>
+    <div class="header">
+        <span class="logo">LOGO</span>
     </div>
 
-    <div style="text-align: center; margin-top: 100px;">
+    <div class="login-container">
         
         <h1>Welcome to Lab App</h1>
         <p>Please enter your details below.</p>
@@ -17,17 +18,17 @@
 
         <form action="home.html">
             
-            <label for="username"><strong>User Email:</strong></label><br>
-            <input type="text" id="username" name="username" style="padding: 8px; width: 250px;">
+            <label for="username">User Email:</label><br>
+            <input type="text" id="username" name="username" class="form-input">
             
             <br><br>
 
-            <label for="password"><strong>Password:</strong></label><br>
-            <input type="password" id="password" name="password" style="padding: 8px; width: 250px;">
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" class="form-input">
             
             <br><br><br>
 
-            <button type="submit" style="padding: 10px 30px; cursor: pointer; background-color: #007bff; color: white; border: none;">
+            <button type="submit" class="submit-btn">
                 Log In
             </button>
 
