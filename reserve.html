@@ -3,8 +3,6 @@
 <head>
     <title>Animo Sync: Reserve</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="functions.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body onload="statusColor()">
 
@@ -48,21 +46,21 @@
                         <td>PC-01</td>
                         <td class="status">Available</td>
                         <td>-</td>
-                        <td><button>Reserve This Spot</button></td>
+                        <td><button class="reserve_spot">Reserve This Spot</button></td>
                     </tr>
                     <tr>
                         <td>9:00 AM - 10:00 AM</td>
                         <td>PC-02</td>
                         <td class="status">Reserved</td>
-                        <td><a href="user_profile.html">Felix Kjellberg</a></td>
-                        <td><button disabled>Unavailable</button></td>
+                        <td><a href="user_profile.html?user=felix">Felix Kjellberg</a></td>
+                        <td><button class="reserve_spot">Unavailable</button></td>
                     </tr>
                     <tr>
                         <td>9:00 AM - 10:00 AM</td>
                         <td>PC-03</td>
                         <td class="status">Reserved</td>
-                        <td><a href="user_profile.html">Mark Fishbach</a></td>
-                        <td><button disabled>Unavailable</button></td>
+                        <td><a href="user_profile.html?user=mark">Mark Fishbach</a></td>
+                        <td><button class="reserve_spot">Unavailable</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -86,21 +84,21 @@
                         <td>LIB-01</td>
                         <td class="status">Reserved</td>
                         <td><em>Anonymous</em></td>
-                        <td><button disabled>Unavailable</button></td>
+                        <td><button class="reserve_spot">Unavailable</button></td>
                     </tr>
                     <tr>
                         <td>9:00 AM - 10:00 AM</td>
                         <td>LIB-02</td>
                         <td class="status">Available</td>
                         <td>-</td>
-                        <td><button>Reserve This Spot</button></td>
+                        <td><button class="reserve_spot">Reserve This Spot</button></td>
                     </tr>
                     <tr>
                         <td>10:00 AM - 11:00 AM</td>
                         <td>LIB-01</td>
                         <td class="status">Reserved</td>
-                        <td><a href="user_profile.html">Hermione G.</a></td>
-                        <td><button disabled>Unavailable</button></td>
+                        <td><a href="user_profile.html?user=hermione">Hermione G.</a></td>
+                        <td><button class="reserve_spot">Unavailable</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -123,22 +121,22 @@
                         <td>9:00 AM - 10:00 AM</td>
                         <td>MAC-01</td>
                         <td class="status">Reserved</td>
-                        <td><a href="user_profile.html">M. Brownlee</a></td>
-                        <td><button disabled>Unavailable</button></td>
+                        <td><a href="user_profile.html?user=marques">M. Brownlee</a></td>
+                        <td><button class="reserve_spot">Unavailable</button></td>
                     </tr>
                     <tr>
                         <td>9:00 AM - 10:00 AM</td>
                         <td>MAC-02</td>
                         <td class="status">Reserved</td>
-                        <td><a href="user_profile.html">Linus S.</a></td>
-                        <td><button disabled>Unavailable</button></td>
+                        <td><a href="user_profile.html?user=linus">Linus S.</a></td>
+                        <td><button class="reserve_spot">Unavailable</button></td>
                     </tr>
                     <tr>
                         <td>10:00 AM - 11:00 AM</td>
                         <td>MAC-01</td>
                         <td class="status">Available</td>
                         <td>-</td>
-                        <td><button>Reserve This Spot</button></td>
+                        <td><button class="reserve_spot">Reserve This Spot</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -148,6 +146,9 @@
         <a href="home.html">Back to Home</a>
 
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="functions.js"></script>
 
 </body>
 </html>
