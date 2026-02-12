@@ -3,34 +3,35 @@
 <head>
     <title>Reserve a Slot</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="functions.js"></script>
 </head>
 <body>
 
     <div class="header">
         <span class="logo">YOUR LOGO</span>
-        <a href="login.html" class="logout-link">Log In</a>
+        <a href="login.html" class="login-link">Log In</a>
     </div>
 
-    <div class="reserve-container">
+    <div class="container">
         
         <h2>Reserve a Computer Lab Slot</h2>
 
-        <div class="selection-area">
-            <label for="lab-select">Choose a Lab:</label>
-            <select id="lab-select" class="lab-dropdown">
-                <option value="A">Computer Lab A (Science Bldg)</option>
-                <option value="B">Computer Lab B (Library)</option>
-                <option value="Mac">Mac Lab (Design Dept)</option>
-            </select>
-        </div>
+        <label for="lab-select">Choose a Lab:</label>
+        <select id="lab-select" class="lab-dropdown" onchange="showLabTable()">
+            <option value="A">Computer Lab A (Science Bldg)</option>
+            <option value="B">Computer Lab B (Library)</option>
+            <option value="Mac">Mac Lab (Design Dept)</option>
+        </select>
 
-        <p class="note-text">
+        <br><br>
+
+        <p class="warning-text">
             * Note: You must be a registered student to reserve a seat.
         </p>
 
-        <div id="table-lab-a" class="lab-section">
+        <div id="table-lab-a">
             <h3>Schedule for: Science Building</h3>
-            <table class="lab-table">
+            <table class="schedule-table">
                 <thead>
                     <tr>
                         <th>Time Slot</th>
@@ -46,29 +47,29 @@
                         <td>PC-01</td>
                         <td class="status-available">Available</td>
                         <td>-</td>
-                        <td><button class="reserve-btn">Reserve This Spot</button></td>
+                        <td><button>Reserve This Spot</button></td>
                     </tr>
                     <tr>
                         <td>9:00 AM - 10:00 AM</td>
                         <td>PC-02</td>
                         <td class="status-reserved">Reserved</td>
                         <td><a href="user_profile.html">Felix Kjellberg</a></td>
-                        <td><button class="disabled-btn" disabled>Unavailable</button></td>
+                        <td><button disabled>Unavailable</button></td>
                     </tr>
                     <tr>
                         <td>9:00 AM - 10:00 AM</td>
                         <td>PC-03</td>
                         <td class="status-reserved">Reserved</td>
                         <td><a href="user_profile.html">Mark Fishbach</a></td>
-                        <td><button class="disabled-btn" disabled>Unavailable</button></td>
+                        <td><button disabled>Unavailable</button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div id="table-lab-b" class="lab-section hidden">
+        <div id="table-lab-b" class="hidden">
             <h3>Schedule for: Library</h3>
-            <table class="lab-table">
+            <table class="schedule-table">
                 <thead>
                     <tr>
                         <th>Time Slot</th>
@@ -84,29 +85,29 @@
                         <td>LIB-01</td>
                         <td class="status-reserved">Reserved</td>
                         <td><em>Anonymous</em></td>
-                        <td><button class="disabled-btn" disabled>Unavailable</button></td>
+                        <td><button disabled>Unavailable</button></td>
                     </tr>
                     <tr>
                         <td>9:00 AM - 10:00 AM</td>
                         <td>LIB-02</td>
                         <td class="status-available">Available</td>
                         <td>-</td>
-                        <td><button class="reserve-btn">Reserve This Spot</button></td>
+                        <td><button>Reserve This Spot</button></td>
                     </tr>
                     <tr>
                         <td>10:00 AM - 11:00 AM</td>
                         <td>LIB-01</td>
                         <td class="status-reserved">Reserved</td>
                         <td><a href="user_profile.html">Hermione G.</a></td>
-                        <td><button class="disabled-btn" disabled>Unavailable</button></td>
+                        <td><button disabled>Unavailable</button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div id="table-mac-lab" class="lab-section hidden">
+        <div id="table-mac-lab" class="hidden">
             <h3>Schedule for: Design Dept</h3>
-            <table class="lab-table">
+            <table class="schedule-table">
                 <thead>
                     <tr>
                         <th>Time Slot</th>
@@ -122,21 +123,21 @@
                         <td>MAC-01</td>
                         <td class="status-reserved">Reserved</td>
                         <td><a href="user_profile.html">M. Brownlee</a></td>
-                        <td><button class="disabled-btn" disabled>Unavailable</button></td>
+                        <td><button disabled>Unavailable</button></td>
                     </tr>
                     <tr>
                         <td>9:00 AM - 10:00 AM</td>
                         <td>MAC-02</td>
                         <td class="status-reserved">Reserved</td>
                         <td><a href="user_profile.html">Linus S.</a></td>
-                        <td><button class="disabled-btn" disabled>Unavailable</button></td>
+                        <td><button disabled>Unavailable</button></td>
                     </tr>
                     <tr>
                         <td>10:00 AM - 11:00 AM</td>
                         <td>MAC-01</td>
                         <td class="status-available">Available</td>
                         <td>-</td>
-                        <td><button class="reserve-btn">Reserve This Spot</button></td>
+                        <td><button>Reserve This Spot</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -146,8 +147,6 @@
         <a href="home.html">Back to Home</a>
 
     </div>
-
-    <script src="script.js"></script>
 
 </body>
 </html>

@@ -153,81 +153,64 @@ label {
     background-color: #0056b3;
 }
 
-/* --- Reserve Page Specific Styles --- */
-
-.reserve-container {
+/* Main Container */
+.container {
     padding: 40px;
     text-align: center;
 }
 
-.selection-area {
-    margin-bottom: 20px;
-}
-
-.selection-area label {
-    font-weight: bold;
-    margin-right: 10px;
-}
-
+/* Form Elements */
 .lab-dropdown {
     padding: 5px;
-}
-
-/* The red warning note */
-.note-text {
-    color: red;
-    font-style: italic;
-    margin-bottom: 30px;
-}
-
-/* --- Lab Tables --- */
-
-/* Reusing similar logic to the search results table */
-.lab-table {
-    margin: 0 auto; /* Centers the table */
-    width: 80%;
-    text-align: left;
-    border-collapse: collapse;
     margin-bottom: 20px;
 }
 
-.lab-table th, 
-.lab-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
+.warning-text {
+    color: red;
+    font-style: italic;
 }
 
-.lab-table th {
-    background-color: #f2f2f2;
-}
-
-.lab-section h3 {
+/* Headings within sections */
+h3 {
     color: #333;
 }
 
-/* Helper class to hide elements initially */
-.hidden {
-    display: none;
+/* Table Styles */
+.schedule-table {
+    margin: 0 auto;
+    width: 80%;
+    text-align: left;
+    border-collapse: collapse; 
+    border: 1px solid gray;    
 }
 
-/* --- Status Colors --- */
+.schedule-table th, 
+.schedule-table td {
+    padding: 10px;             
+    border: 1px solid gray;
+}
+
+.schedule-table th {
+    background-color: #f2f2f2;
+}
+
+/* Status Colors */
 .status-available {
     color: green;
-    font-weight: bold;
 }
 
 .status-reserved {
     color: orange;
-    font-weight: bold;
 }
 
-/* --- Button States --- */
+/* Utility Class for Hiding Elements */
+.hidden {
+    display: none;
+}
 
-/* The Grey Disabled Button */
-.disabled-btn {
-    background-color: #cccccc;
-    color: #666666;
-    border: 1px solid #999999;
-    padding: 5px 10px;
-    cursor: not-allowed;
+.login-link{
+    float: right; 
+    color: white; 
+    text-decoration: none; 
+    padding-top: 5px;
 }
