@@ -14,3 +14,24 @@ function showLabTable() {
         document.getElementById("table-mac-lab").style.display = "block";
     }
 }
+
+function statusColor(){
+
+    var statusWord = $(".status"); 
+
+    for(var i = 0; i < statusWord.length; i++){
+        
+        var currentText = statusWord[i].innerText; 
+
+        if (currentText === "Available") {
+            statusWord[i].style.color = "green";
+        } else if (currentText === "Reserved") {
+            statusWord[i].style.color = "orange";
+        } else {
+            statusWord[i].style.color = "#333"
+        }
+    }
+}
+
+
+
