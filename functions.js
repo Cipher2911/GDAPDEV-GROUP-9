@@ -3,7 +3,7 @@ const userData = {
         name: "Felix Kjellberg",
         id: "12423456",
         college: "College of Science",
-        email: "pewds@university.edu",
+        email: "pewds@dlsu.edu.ph",
         avatar: "FK",
         reservation: { location: "Science Bldg", station: "PC-02", time: "9:00 AM - 10:00 AM" }
     },
@@ -11,7 +11,7 @@ const userData = {
         name: "Mark Fishbach",
         id: "12498765",
         college: "Gokongwei College of Engineering",
-        email: "markiplier@university.edu",
+        email: "markiplier@dlsu.edu.ph",
         avatar: "MF",
         reservation: { location: "Science Bldg", station: "PC-03", time: "9:00 AM - 10:00 AM" }
     },
@@ -19,7 +19,7 @@ const userData = {
         name: "Hermione Granger",
         id: "12400001",
         college: "College of Business",
-        email: "h.granger@university.edu",
+        email: "h.granger@dlsu.edu.ph",
         avatar: "HG",
         reservation: { location: "Library", station: "LIB-01", time: "10:00 AM - 11:00 AM" }
     },
@@ -27,7 +27,7 @@ const userData = {
         name: "Marques Brownlee",
         id: "12454433",
         college: "College of Computer Studies",
-        email: "mkbhd@university.edu",
+        email: "mkbhd@dlsu.edu.ph",
         avatar: "MB",
         reservation: { location: "Design Dept", station: "MAC-01", time: "9:00 AM - 10:00 AM" }
     },
@@ -35,11 +35,37 @@ const userData = {
         name: "Linus Sebastian",
         id: "12447788",
         college: "College of Computer Studies",
-        email: "linus@university.edu",
+        email: "linus@dlsu.edu.ph",
         avatar: "LS",
         reservation: { location: "Design Dept", station: "MAC-02", time: "9:00 AM - 10:00 AM" }
     }
 };
+
+document.addEventListener("DOMContentLoaded", function() {
+    const reservationForm = document.querySelector("form");
+
+    if (reservationForm) {
+        reservationForm.addEventListener("submit", function(event) {
+            let isValid = true;
+            const inputs = reservationForm.querySelectorAll("input, select, textarea");
+
+            inputs.forEach(input => {
+            
+                input.style.borderColor = "";
+
+                if (input.value.trim() === "") {
+                    isValid = false;
+                    input.style.borderColor = "red"; 
+                }
+            });
+
+            if (!isValid) {
+                event.preventDefault();
+                alert("Please fill out all required fields before proceeding.");
+            }
+        });
+    }
+});
 
 function showLabTable() {
     var selector = document.getElementById("lab-select");
@@ -66,14 +92,12 @@ $(document).ready(function() {
         if (userKey && userData[userKey]) {
             const user = userData[userKey];
             
-            // Fill Profile Card
             $('#name').text(user.name);
             $('#id_number').text(user.id);
             $('#college').text(user.college);
             $('#email').text(user.email);
             $('#display-avatar').text(user.avatar);
 
-            // Fill Reservation Table
             $('#location').text(user.reservation.location);
             $('#laboratory').text(user.reservation.station);
             $('#time').text(user.reservation.time);
@@ -86,26 +110,36 @@ $(document).ready(function() {
 
 function statusColor(){
 
-    var statusWord = $(".status"); 
-
-    for(var i = 0; i < statusWord.length; i++){
-        
-        var currentText = statusWord[i].innerText; 
+   $(".status").each(function() {
+        var currentText = $(this).text().trim(); 
 
         if (currentText === "Available") {
-            statusWord[i].style.color = "green";
+            $(this).css("color", "green");
         } else if (currentText === "Reserved") {
-            statusWord[i].style.color = "orange";
+            $(this).css("color", "orange");
         } else {
-            statusWord[i].style.color = "#333"
+            $(this).css("color", "#333");
         }
-    }
+    });
 }
+
+$(document).ready(function() {
+    statusColor(); 
+});
 
 $(document).ready(function(){
     $(".action-btn").click(function(){
         $(this).css("color", "white"); 
         $(this).css("background-color", "blue"); 
+    }); 
+});
+
+$(document).ready(function(){
+    $(".reserve-btn").click(function(){
+        $(this).css("color", "white"); 
+        $(this).css("background-color", "green"); 
+        $(this).text("Reserved");
+        alert("Spot Reserved!"); 
     }); 
 });
 
@@ -116,29 +150,43 @@ $(document).ready(function(){
     }); 
 }); 
 
-$(document).ready(function(){
-    $(".submit-btn").click(function(){
-        $(this).css("color", "white"); 
-        $(this).css("background-color", "darkblue"); 
-    }); 
-}); 
 
 $(document).ready(function(){
+
+    $(".reserve_spot").each(function(){
+        var text = $(this).text().trim();
+        
+        if(text === "Reserve This Spot") {
+            $(this).css("background-color", "blue"); 
+            $(this).css("cursor", "pointer");
+            $(this).css("color", "white"); 
+        } else { 
+            $(this).css("cursor", "not-allowed");
+            $(this).css("background-color", "lightgray");
+            $(this).css("color", "black");
+        }
+    });
 
     $(".reserve_spot").click(function(){
+        var currentText = $(this).text().trim();
 
-        var currentText = $(this).text().trim(); 
-        
         if(currentText === "Reserve This Spot"){
+           
             alert("Spot Reserved!");
-            $(this).text("Unavailable");
-        } else {
-            alert("This Spot is Already Reserved.")
-            $(this).css("cursor", "not-allowed");
-        }
-    }); 
 
-}); 
+            $(this).text("Unavailable");
+            $(this).css("background-color", "lightgray");
+            $(this).css("color", "black"); 
+            $(this).css("cursor", "not-allowed");
+
+            $(this).closest("tr").find(".status").text("Reserved");
+
+        } else {
+            alert("This Spot is Already Reserved.");
+        }
+    });
+
+});
 
 
 
