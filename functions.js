@@ -145,13 +145,11 @@ $(document).ready(function(){
 });
 
 //Reserve Button 
-$(document).ready(function(){
-    $(".reserve-btn").click(function(){
-        $(this).css("color", "white"); 
-        $(this).css("background-color", "green"); 
-        $(this).text("Reserved");
-        alert("Spot Reserved!"); 
-    }); 
+$(document).on("click", ".reserve-btn", function(){
+    $(this).css("color", "white"); 
+    $(this).css("background-color", "green"); 
+    $(this).text("Reserved");
+    alert("Spot Reserved!"); 
 });
 
 //Submit Button for Log-in 
@@ -288,6 +286,84 @@ function showLabTable() {
 document.addEventListener('DOMContentLoaded', () => {
     renderLabTables();
     showLabTable(); 
+});
+
+//For Searching Slots
+const availableSlots = [
+    { 
+        date: "Oct 25, 2023", 
+        time: "10:00 AM - 10:30 AM", 
+        labName: "Computer Lab A", 
+        labId: "lab-a", 
+        station: "PC-04" 
+    },
+    { 
+        date: "Oct 25, 2023", 
+        time: "10:30 AM - 11:00 AM", 
+        labName: "Computer Lab A", 
+        labId: "lab-a",
+        station: "PC-04" 
+    },
+    { 
+        date: "Oct 25, 2023", 
+        time: "2:00 PM - 2:30 PM", 
+        labName: "Mac Lab", 
+        labId: "mac-lab",
+        station: "MAC-01" 
+    },
+    { 
+        date: "Oct 26, 2023", 
+        time: "9:00 AM - 9:30 AM", 
+        labName: "Computer Lab B", 
+        labId: "lab-b",
+        station: "LIB-03" 
+    }
+];
+
+function renderTable(data) {
+    const tableBody = document.getElementById('results-body');
+    tableBody.innerHTML = ""; 
+
+    if (data.length === 0) {
+        tableBody.innerHTML = "<tr><td colspan='5' class='center-text'>No slots found</td></tr>";
+        return;
+    }
+
+    data.forEach(slot => {
+        const row = `
+            <tr>
+                <td>${slot.date}</td>
+                <td>${slot.time}</td>
+                <td>${slot.labName}</td>
+                <td>${slot.station}</td>
+                <td class="center-text">
+                    <button class="reserve-btn">Reserve</button>
+                </td>
+            </tr>
+        `;
+        tableBody.innerHTML += row;
+    });
+}
+
+function filterSlots() {
+    const selectedLab = document.getElementById('search-lab').value;
+    
+    if (selectedLab === "all") {
+        renderTable(availableSlots);
+    } else {
+        const filteredData = availableSlots.filter(slot => slot.labId === selectedLab);
+        renderTable(filteredData);
+    }
+    
+    alert(`Search complete! Showing results for: ${selectedLab}`);
+}
+
+function reserveStation(stationId) {
+    alert(`You have successfully reserved station: ${stationId}`);
+}
+    
+document.addEventListener('DOMContentLoaded', () => {
+    renderTable(availableSlots);
 });
 
 
