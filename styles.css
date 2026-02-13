@@ -141,6 +141,28 @@ label {
     text-align: center;
 }
 
+.hidden { 
+    display: none; 
+}
+
+.schedule-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 10px;
+}
+
+.schedule-table th, .schedule-table td { 
+    border: 1px 
+    solid #ddd; 
+    padding: 8px; 
+    text-align: left; 
+}
+
+.schedule-table th { 
+    background-color: #f2f2f2;
+}
+
+
 /* Blue Reserve Button */
 .reserve-btn {
     background-color: #007bff; 

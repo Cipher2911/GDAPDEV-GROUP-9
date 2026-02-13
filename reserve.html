@@ -28,7 +28,7 @@
             * Note: You must be a registered student to reserve a seat.
         </p>
 
-        <div id="table-lab-a">
+        <div id="table-lab-a" class="lab-section">
             <h3>Schedule for: Science Building</h3>
             <table class="schedule-table">
                 <thead>
@@ -40,33 +40,11 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>9:00 AM - 10:00 AM</td>
-                        <td>PC-01</td>
-                        <td class="status">Available</td>
-                        <td>-</td>
-                        <td><button class="reserve_spot">Reserve This Spot</button></td>
-                    </tr>
-                    <tr>
-                        <td>9:00 AM - 10:00 AM</td>
-                        <td>PC-02</td>
-                        <td class="status">Reserved</td>
-                        <td><a href="user_profile.html?user=felix">Felix Kjellberg</a></td>
-                        <td><button class="reserve_spot">Unavailable</button></td>
-                    </tr>
-                    <tr>
-                        <td>9:00 AM - 10:00 AM</td>
-                        <td>PC-03</td>
-                        <td class="status">Reserved</td>
-                        <td><a href="user_profile.html?user=mark">Mark Fishbach</a></td>
-                        <td><button class="reserve_spot">Unavailable</button></td>
-                    </tr>
-                </tbody>
+                <tbody id="body-lab-a"></tbody>
             </table>
         </div>
 
-        <div id="table-lab-b" class="hidden">
+        <div id="table-lab-b" class="lab-section hidden">
             <h3>Schedule for: Library</h3>
             <table class="schedule-table">
                 <thead>
@@ -78,33 +56,11 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>9:00 AM - 10:00 AM</td>
-                        <td>LIB-01</td>
-                        <td class="status">Reserved</td>
-                        <td><em>Anonymous</em></td>
-                        <td><button class="reserve_spot">Unavailable</button></td>
-                    </tr>
-                    <tr>
-                        <td>9:00 AM - 10:00 AM</td>
-                        <td>LIB-02</td>
-                        <td class="status">Available</td>
-                        <td>-</td>
-                        <td><button class="reserve_spot">Reserve This Spot</button></td>
-                    </tr>
-                    <tr>
-                        <td>10:00 AM - 11:00 AM</td>
-                        <td>LIB-01</td>
-                        <td class="status">Reserved</td>
-                        <td><a href="user_profile.html?user=hermione">Hermione G.</a></td>
-                        <td><button class="reserve_spot">Unavailable</button></td>
-                    </tr>
-                </tbody>
+                <tbody id="body-lab-b"></tbody>
             </table>
         </div>
 
-        <div id="table-mac-lab" class="hidden">
+        <div id="table-mac-lab" class="lab-section hidden">
             <h3>Schedule for: Design Dept</h3>
             <table class="schedule-table">
                 <thead>
@@ -116,29 +72,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>9:00 AM - 10:00 AM</td>
-                        <td>MAC-01</td>
-                        <td class="status">Reserved</td>
-                        <td><a href="user_profile.html?user=marques">M. Brownlee</a></td>
-                        <td><button class="reserve_spot">Unavailable</button></td>
-                    </tr>
-                    <tr>
-                        <td>9:00 AM - 10:00 AM</td>
-                        <td>MAC-02</td>
-                        <td class="status">Reserved</td>
-                        <td><a href="user_profile.html?user=linus">Linus S.</a></td>
-                        <td><button class="reserve_spot">Unavailable</button></td>
-                    </tr>
-                    <tr>
-                        <td>10:00 AM - 11:00 AM</td>
-                        <td>MAC-01</td>
-                        <td class="status">Available</td>
-                        <td>-</td>
-                        <td><button class="reserve_spot">Reserve This Spot</button></td>
-                    </tr>
-                </tbody>
+                <tbody id="body-mac-lab"></tbody>
             </table>
         </div>
 

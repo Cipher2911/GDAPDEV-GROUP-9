@@ -202,6 +202,94 @@ $(document).ready(function(){
 
 });
 
+//For Lab Table
+
+const labData = {
+    "A": [
+        { time: "9:00 AM - 10:00 AM", station: "PC-01", status: "Available", user: null, link: null },
+        { time: "9:00 AM - 10:00 AM", station: "PC-02", status: "Reserved", user: "Felix Kjellberg", link: "user_profile.html?user=felix" },
+        { time: "9:00 AM - 10:00 AM", station: "PC-03", status: "Reserved", user: "Mark Fishbach", link: "user_profile.html?user=mark" }
+    ],
+    "B": [
+        { time: "9:00 AM - 10:00 AM", station: "LIB-01", status: "Reserved", user: "Anonymous", link: null },
+        { time: "9:00 AM - 10:00 AM", station: "LIB-02", status: "Available", user: null, link: null },
+        { time: "10:00 AM - 11:00 AM", station: "LIB-01", status: "Reserved", user: "Hermione G.", link: "user_profile.html?user=hermione" }
+    ],
+    "Mac": [
+        { time: "9:00 AM - 10:00 AM", station: "MAC-01", status: "Reserved", user: "M. Brownlee", link: "user_profile.html?user=marques" },
+        { time: "9:00 AM - 10:00 AM", station: "MAC-02", status: "Reserved", user: "Linus S.", link: "user_profile.html?user=linus" },
+        { time: "10:00 AM - 11:00 AM", station: "MAC-01", status: "Available", user: null, link: null }
+    ]
+};
+
+
+function renderLabTables() {
+    
+    const mapping = {
+        "A": "body-lab-a",
+        "B": "body-lab-b",
+        "Mac": "body-mac-lab"
+    };
+
+    for (const [labKey, bookings] of Object.entries(labData)) {
+        const tbody = document.getElementById(mapping[labKey]);
+        if (!tbody) continue;
+
+        tbody.innerHTML = ""; 
+
+        bookings.forEach(booking => {
+            
+            let userDisplay = "-";
+            if (booking.user) {
+                if (booking.link) {
+                    userDisplay = `<a href="${booking.link}">${booking.user}</a>`;
+                } else {
+                    userDisplay = `<em>${booking.user}</em>`;
+                }
+            }
+
+            let buttonHtml = "";
+            if (booking.status === "Available") {
+                buttonHtml = `<button class="reserve_spot">Reserve This Spot</button>`;
+            } else {
+                buttonHtml = `<button class="reserve_spot" cursor:not-allowed">Unavailable</button>`;
+            }
+
+            const row = `
+                <tr>
+                    <td>${booking.time}</td>
+                    <td>${booking.station}</td>
+                    <td class="status">${booking.status}</td>
+                    <td>${userDisplay}</td>
+                    <td>${buttonHtml}</td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+    }
+}
+
+function showLabTable() {
+    const selectedValue = document.getElementById("lab-select").value;
+
+    document.getElementById("table-lab-a").classList.add("hidden");
+    document.getElementById("table-lab-b").classList.add("hidden");
+    document.getElementById("table-mac-lab").classList.add("hidden");
+
+    if (selectedValue === "A") {
+        document.getElementById("table-lab-a").classList.remove("hidden");
+    } else if (selectedValue === "B") {
+        document.getElementById("table-lab-b").classList.remove("hidden");
+    } else if (selectedValue === "Mac") {
+        document.getElementById("table-mac-lab").classList.remove("hidden");
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderLabTables();
+    showLabTable(); 
+});
+
 
 
 
