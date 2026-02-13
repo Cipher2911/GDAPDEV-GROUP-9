@@ -1,3 +1,5 @@
+//Sample User Data
+
 const userData = {
     "felix": {
         name: "Felix Kjellberg",
@@ -41,6 +43,8 @@ const userData = {
     }
 };
 
+
+//Log In Functions 
 document.addEventListener("DOMContentLoaded", function() {
     const reservationForm = document.querySelector("form");
 
@@ -67,6 +71,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+//Show Table for Laboratories 
+
 function showLabTable() {
     var selector = document.getElementById("lab-select");
     var selectedLab = selector.value;
@@ -84,6 +90,7 @@ function showLabTable() {
     }
 }
 
+//Link to a User 
 $(document).ready(function() {
     if (window.location.pathname.includes("user_profile.html")) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -108,6 +115,7 @@ $(document).ready(function() {
     }
 }); 
 
+//Status Color for Reserved, Available or Unavailable 
 function statusColor(){
 
    $(".status").each(function() {
@@ -127,6 +135,8 @@ $(document).ready(function() {
     statusColor(); 
 });
 
+
+//For Home Page 
 $(document).ready(function(){
     $(".action-btn").click(function(){
         $(this).css("color", "white"); 
@@ -134,6 +144,7 @@ $(document).ready(function(){
     }); 
 });
 
+//Reserve Button 
 $(document).ready(function(){
     $(".reserve-btn").click(function(){
         $(this).css("color", "white"); 
@@ -143,6 +154,7 @@ $(document).ready(function(){
     }); 
 });
 
+//Submit Button for Log-in 
 $(document).ready(function(){
     $(".submit-btn").click(function(){
         $(this).css("color", "white"); 
@@ -150,7 +162,7 @@ $(document).ready(function(){
     }); 
 }); 
 
-
+//Reserve this Spot Button 
 $(document).ready(function(){
 
     $(".reserve_spot").each(function(){
@@ -180,6 +192,8 @@ $(document).ready(function(){
             $(this).css("cursor", "not-allowed");
 
             $(this).closest("tr").find(".status").text("Reserved");
+
+            statusColor(); 
 
         } else {
             alert("This Spot is Already Reserved.");
