@@ -3,19 +3,20 @@ body {
     margin: 0;
 }
 
-.header {
+/*Header Styles*/
+#header {
     padding: 20px;
     background-color: #333; 
     color: white;
     overflow: hidden;
 }
 
-.logo {
+#logo {
     font-size: 24px;
     font-weight: bold;
 }
 
-.logout-link {
+#logout-link {
     float: right;
     color: white;
     text-decoration: none;
@@ -253,4 +254,5 @@ h3 {
     border: 0;
     border-top: 1px solid #eee;
     margin: 30px 0;
+
 }
