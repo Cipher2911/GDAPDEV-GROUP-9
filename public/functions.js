@@ -46,17 +46,16 @@ const userData = {
 
 //Log In Functions 
 document.addEventListener("DOMContentLoaded", function() {
-    const reservationForm = document.querySelector("form");
+    
+    const searchForm = document.getElementById("search-form");
 
-    if (reservationForm) {
-        reservationForm.addEventListener("submit", function(event) {
+    if (searchForm) {
+        searchForm.addEventListener("submit", function(event) {
             let isValid = true;
-            const inputs = reservationForm.querySelectorAll("input, select, textarea");
+            const inputs = searchForm.querySelectorAll("input, select, textarea");
 
             inputs.forEach(input => {
-            
                 input.style.borderColor = "";
-
                 if (input.value.trim() === "") {
                     isValid = false;
                     input.style.borderColor = "red"; 
@@ -71,28 +70,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-//Show Table for Laboratories 
-
-function showLabTable() {
-    var selector = document.getElementById("lab-select");
-    var selectedLab = selector.value;
-
-    document.getElementById("table-lab-a").style.display = "none";
-    document.getElementById("table-lab-b").style.display = "none";
-    document.getElementById("table-mac-lab").style.display = "none";
-
-    if (selectedLab === "A") {
-        document.getElementById("table-lab-a").style.display = "block";
-    } else if (selectedLab === "B") {
-        document.getElementById("table-lab-b").style.display = "block";
-    } else if (selectedLab === "Mac") {
-        document.getElementById("table-mac-lab").style.display = "block";
-    }
-}
-
 //Link to a User 
 $(document).ready(function() {
-    if (window.location.pathname.includes("user_profile.html")) {
+    if (window.location.pathname.includes("/profile")) {
         const urlParams = new URLSearchParams(window.location.search);
         const userKey = urlParams.get('user');
 
@@ -268,18 +248,27 @@ function renderLabTables() {
 }
 
 function showLabTable() {
-    const selectedValue = document.getElementById("lab-select").value;
+   
+    const selector = document.getElementById("lab-select");
 
-    document.getElementById("table-lab-a").classList.add("hidden");
-    document.getElementById("table-lab-b").classList.add("hidden");
-    document.getElementById("table-mac-lab").classList.add("hidden");
+    if (!selector) return; 
 
-    if (selectedValue === "A") {
-        document.getElementById("table-lab-a").classList.remove("hidden");
-    } else if (selectedValue === "B") {
-        document.getElementById("table-lab-b").classList.remove("hidden");
-    } else if (selectedValue === "Mac") {
-        document.getElementById("table-mac-lab").classList.remove("hidden");
+    const selectedValue = selector.value;
+
+    const tableA = document.getElementById("table-lab-a");
+    const tableB = document.getElementById("table-lab-b");
+    const tableMac = document.getElementById("table-mac-lab");
+
+    if (tableA) tableA.classList.add("hidden");
+    if (tableB) tableB.classList.add("hidden");
+    if (tableMac) tableMac.classList.add("hidden");
+
+    if (selectedValue === "A" && tableA) {
+        tableA.classList.remove("hidden");
+    } else if (selectedValue === "B" && tableB) {
+        tableB.classList.remove("hidden");
+    } else if (selectedValue === "Mac" && tableMac) {
+        tableMac.classList.remove("hidden");
     }
 }
 

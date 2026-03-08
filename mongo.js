@@ -14,3 +14,5 @@ connectToMongo((err) => {
 
     const db = getDb(); 
 }); 
+
+db.createConnection()
