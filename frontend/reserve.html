@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animo Sync: Reserve</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="header">
+        <span id="logo">YOUR LOGO</span>
+
+        <div id="nav-links">
+            <a href="user_profile.html" id="profile-link">View Profile</a>
+            <a href="login.html" id="logout-link">Log Out</a>
+        </div>
+
+    </div>
+
+    <div class="container">
+        
+        <h2>Reserve a Computer Lab Slot</h2>
+
+        <label for="lab-select">Choose a Lab:</label>
+        <select id="lab-select" class="lab-dropdown" onchange="showLabTable()">
+            <option value="A">Computer Lab A (Science Bldg)</option>
+            <option value="B">Computer Lab B (Library)</option>
+            <option value="Mac">Mac Lab (Design Dept)</option>
+        </select>
+
+        <br><br>
+
+        <p class="warning-text">
+            * Note: You must be a registered student to reserve a seat.
+        </p>
+
+        <div id="table-lab-a" class="lab-section">
+            <h3>Schedule for: Science Building</h3>
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Time Slot</th>
+                        <th>Station</th>
+                        <th>Status</th>
+                        <th>Reserved By</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="body-lab-a"></tbody>
+            </table>
+        </div>
+
+        <div id="table-lab-b" class="lab-section hidden">
+            <h3>Schedule for: Library</h3>
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Time Slot</th>
+                        <th>Station</th>
+                        <th>Status</th>
+                        <th>Reserved By</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="body-lab-b"></tbody>
+            </table>
+        </div>
+
+        <div id="table-mac-lab" class="lab-section hidden">
+            <h3>Schedule for: Design Dept</h3>
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Time Slot</th>
+                        <th>Station</th>
+                        <th>Status</th>
+                        <th>Reserved By</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="body-mac-lab"></tbody>
+            </table>
+        </div>
+
+        <br><br>
+        <a href="home.html">Back to Home</a>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="functions.js"></script>
+
+</body>
+
+</html>

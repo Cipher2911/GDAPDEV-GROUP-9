@@ -24,23 +24,26 @@ const server = http.createServer((req, res) => {
 
     switch (pathname) {
         case "/":
-            pathname = "/login.html";
+            pathname = "./frontend/login.html";
             break;
         case "/sign_up": 
-            pathname = "/sign_up.html"; 
+            pathname = "./frontend/sign_up.html"; 
             break; 
         case "/home":
-            pathname = "/home.html";
+            pathname = "./frontend/home.html";
             break;
         case "/reserve":
-            pathname = "/reserve.html";
+            pathname = "./frontend/reserve.html";
             break;
         case "/search":
-            pathname = "/search.html";
+            pathname = "./frontend/search.html";
             break;
         case "/user_profile":
-            pathname = "/user_profile.html";
+            pathname = "./frontend/user_profile.html";
             break;
+        default: 
+            pathname = `./frontend${pathname}`; 
+            break; 
     }
 
     const filePath = path.join(__dirname, pathname);
