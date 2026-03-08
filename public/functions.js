@@ -185,17 +185,17 @@ $(document).ready(function(){
 const labData = {
     "A": [
         { time: "9:00 AM - 10:00 AM", station: "PC-01", status: "Available", user: null, link: null },
-        { time: "9:00 AM - 10:00 AM", station: "PC-02", status: "Reserved", user: "Felix Kjellberg", link: "user_profile.html?user=felix" },
-        { time: "9:00 AM - 10:00 AM", station: "PC-03", status: "Reserved", user: "Mark Fishbach", link: "user_profile.html?user=mark" }
+        { time: "9:00 AM - 10:00 AM", station: "PC-02", status: "Reserved", user: "Felix Kjellberg", link: "/profile?user=felix" },
+        { time: "9:00 AM - 10:00 AM", station: "PC-03", status: "Reserved", user: "Mark Fishbach", link: "/profile?user=mark" }
     ],
     "B": [
         { time: "9:00 AM - 10:00 AM", station: "LIB-01", status: "Reserved", user: "Anonymous", link: null },
         { time: "9:00 AM - 10:00 AM", station: "LIB-02", status: "Available", user: null, link: null },
-        { time: "10:00 AM - 11:00 AM", station: "LIB-01", status: "Reserved", user: "Hermione G.", link: "user_profile.html?user=hermione" }
+        { time: "10:00 AM - 11:00 AM", station: "LIB-01", status: "Reserved", user: "Hermione G.", link: "/profile?user=hermione" }
     ],
     "Mac": [
-        { time: "9:00 AM - 10:00 AM", station: "MAC-01", status: "Reserved", user: "M. Brownlee", link: "user_profile.html?user=marques" },
-        { time: "9:00 AM - 10:00 AM", station: "MAC-02", status: "Reserved", user: "Linus S.", link: "user_profile.html?user=linus" },
+        { time: "9:00 AM - 10:00 AM", station: "MAC-01", status: "Reserved", user: "M. Brownlee", link: "/profile?user=marques" },
+        { time: "9:00 AM - 10:00 AM", station: "MAC-02", status: "Reserved", user: "Linus S.", link: "/profile?user=linus" },
         { time: "10:00 AM - 11:00 AM", station: "MAC-01", status: "Available", user: null, link: null }
     ]
 };
