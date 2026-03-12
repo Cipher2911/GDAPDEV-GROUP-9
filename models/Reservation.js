@@ -9,7 +9,7 @@ const reserveSchema = new mongoose.Schema(
         roomReserved: { type: ObjectId, required: true },
         dateReserved: { type: Date, required: true },
         dateMade: { type: Date, required: true },
-        status: { type: String, default: "Active" }
+        status: { type: String, default: "Activeee" }
     },
     { timestamps: true }
 );
