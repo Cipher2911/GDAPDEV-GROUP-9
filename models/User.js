@@ -3,11 +3,12 @@ const { timeStamp } = require("node:console");
 
 const userSchema = new mongoose.Schema(
     {
-        username: { type: String, required: true },
-        idNum: { type: Number, required: true },
+        name: { type: String, required: true },
+        id: { type: Number, required: true },
+        college: { type: String, required: true },
         email: { type: String, required: true },
-        password: { type: String, required: true },
-        active: { type: Boolean, default: true }
+        avatar: { type: String, required: true },
+        reservation: { type: ObjectId, required: true }
     },
     { timestamps: true }
 );
