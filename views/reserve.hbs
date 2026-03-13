@@ -6,7 +6,9 @@
     <select id="lab-select" class="lab-dropdown" onchange="showLabTable()">
         <option value="A">Computer Lab A (Science Bldg)</option>
         <option value="B">Computer Lab B (Library)</option>
-        <option value="Mac">Mac Lab (Design Dept)</option>
+        <option value="Mac A">Mac Lab A (Design Dept)</option>
+        <option value="C"> Computer Lab C (Engineering Bldg) </option>
+        <option value="Mac B"> Mac Lab B (Arts Dept)</option>
     </select>
 
     <br><br>
@@ -47,7 +49,7 @@
         </table>
     </div>
 
-    <div id="table-mac-lab" class="lab-section hidden">
+    <div id="table-mac-lab-a" class="lab-section hidden">
         <h3>Schedule for: Design Dept</h3>
         <table class="schedule-table">
             <thead>
@@ -59,7 +61,39 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="body-mac-lab"></tbody>
+            <tbody id="body-mac-lab-a"></tbody>
+        </table>
+    </div>
+
+    <div id="table-lab-c" class="lab-section hidden">
+        <h3>Schedule for: Engineering</h3>
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>Time Slot</th>
+                    <th>Station</th>
+                    <th>Status</th>
+                    <th>Reserved By</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="body-lab-c"></tbody>
+        </table>
+    </div>
+
+    <div id="table-mac-lab-b" class="lab-section hidden">
+        <h3>Schedule for: Design Dept</h3>
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>Time Slot</th>
+                    <th>Station</th>
+                    <th>Status</th>
+                    <th>Reserved By</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="body-mac-lab-b"></tbody>
         </table>
     </div>
 

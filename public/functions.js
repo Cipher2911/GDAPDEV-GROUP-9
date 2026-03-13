@@ -1,49 +1,3 @@
-//Sample User Data
-
-const userData = {
-    "felix": {
-        name: "Felix Kjellberg",
-        id: "12423456",
-        college: "College of Science",
-        email: "pewds@dlsu.edu.ph",
-        avatar: "FK",
-        reservation: { location: "Science Bldg", station: "PC-02", time: "9:00 AM - 10:00 AM" }
-    },
-    "mark": {
-        name: "Mark Fishbach",
-        id: "12498765",
-        college: "Gokongwei College of Engineering",
-        email: "markiplier@dlsu.edu.ph",
-        avatar: "MF",
-        reservation: { location: "Science Bldg", station: "PC-03", time: "9:00 AM - 10:00 AM" }
-    },
-    "hermione": {
-        name: "Hermione Granger",
-        id: "12400001",
-        college: "College of Business",
-        email: "h.granger@dlsu.edu.ph",
-        avatar: "HG",
-        reservation: { location: "Library", station: "LIB-01", time: "10:00 AM - 11:00 AM" }
-    },
-    "marques": {
-        name: "Marques Brownlee",
-        id: "12454433",
-        college: "College of Computer Studies",
-        email: "mkbhd@dlsu.edu.ph",
-        avatar: "MB",
-        reservation: { location: "Design Dept", station: "MAC-01", time: "9:00 AM - 10:00 AM" }
-    },
-    "linus": {
-        name: "Linus Sebastian",
-        id: "12447788",
-        college: "College of Computer Studies",
-        email: "linus@dlsu.edu.ph",
-        avatar: "LS",
-        reservation: { location: "Design Dept", station: "MAC-02", time: "9:00 AM - 10:00 AM" }
-    }
-};
-
-
 //Log In Functions 
 document.addEventListener("DOMContentLoaded", function() {
     
@@ -71,29 +25,52 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 //Link to a User 
-$(document).ready(function() {
+$(document).ready(async function() {
     if (window.location.pathname.includes("/profile")) {
         const urlParams = new URLSearchParams(window.location.search);
-        const userKey = urlParams.get('user');
+        const userKey = urlParams.get('user'); 
 
-        if (userKey && userData[userKey]) {
-            const user = userData[userKey];
-            
-            $('#name').text(user.name);
-            $('#id_number').text(user.id);
-            $('#college').text(user.college);
-            $('#email').text(user.email);
-            $('#display-avatar').text(user.avatar);
+        if (userKey) {
+            try {
+                const response = await fetch(`/api/users/${userKey}`);
+                
+                if (!response.ok) {
+                    throw new Error("User not found in database");
+                }
 
-            $('#location').text(user.reservation.location);
-            $('#laboratory').text(user.reservation.station);
-            $('#time').text(user.reservation.time);
-            $('.status-reserved').text("Confirmed");
+                const data = await response.json();
+                const user = data.user;
+                const reservation = data.reservation;
+                
+                // User Details
+                $('#name').text(user.name);
+                $('#id_number').text(user.dlsu_id); 
+                $('#college').text(user.college);
+                $('#email').text(user.email);
+                $('#display-avatar').text(user.avatar);
+
+                // Reservation Details
+                if (reservation) {
+                    $('#location').text(reservation.lab_id); 
+                    $('#laboratory').text(reservation.station);
+                    $('#time').text(reservation.time);
+                    $('.status-reserved').text("Confirmed").css("color", "green");
+                } else {
+                    $('#location').text("N/A");
+                    $('#laboratory').text("N/A");
+                    $('#time').text("N/A");
+                    $('.status-reserved').text("No active reservations").css("color", "gray");
+                }
+
+            } catch (error) {
+                console.error(error);
+                $('#name').text("User Not Found");
+            }
         } else {
             $('#name').text("User Not Found");
         }
     }
-}); 
+});
 
 //Status Color for Reserved, Available or Unavailable 
 function statusColor(){
@@ -111,11 +88,6 @@ function statusColor(){
     });
 }
 
-$(document).ready(function() {
-    statusColor(); 
-});
-
-
 //For Home Page 
 $(document).ready(function(){
     $(".action-btn").click(function(){
@@ -129,7 +101,6 @@ $(document).on("click", ".reserve-btn", function(){
     $(this).css("color", "white"); 
     $(this).css("background-color", "green"); 
     $(this).text("Reserved");
-    alert("Spot Reserved!"); 
 });
 
 //Submit Button for Log-in 
@@ -140,111 +111,85 @@ $(document).ready(function(){
     }); 
 }); 
 
-//Reserve this Spot Button 
-$(document).ready(function(){
+//Reserve This Spot Button 
+$(document).on("click", ".reserve_spot", function() {
+    var currentText = $(this).text().trim();
 
-    $(".reserve_spot").each(function(){
-        var text = $(this).text().trim();
+    if(currentText === "Reserve This Spot") {
+
+        $(this).text("Unavailable");
+        $(this).css({
+            "background-color": "lightgray",
+            "color": "black",
+            "cursor": "not-allowed"
+        });
         
-        if(text === "Reserve This Spot") {
-            $(this).css("background-color", "blue"); 
-            $(this).css("cursor", "pointer");
-            $(this).css("color", "white"); 
-        } else { 
-            $(this).css("cursor", "not-allowed");
-            $(this).css("background-color", "lightgray");
-            $(this).css("color", "black");
+        $(this).closest("tr").find(".status").text("Reserved");
+
+        if (typeof statusColor === "function") {
+            statusColor();
         }
-    });
 
-    $(".reserve_spot").click(function(){
-        var currentText = $(this).text().trim();
-
-        if(currentText === "Reserve This Spot"){
-           
-            alert("Spot Reserved!");
-
-            $(this).text("Unavailable");
-            $(this).css("background-color", "lightgray");
-            $(this).css("color", "black"); 
-            $(this).css("cursor", "not-allowed");
-
-            $(this).closest("tr").find(".status").text("Reserved");
-
-            statusColor(); 
-
-        } else {
-            alert("This Spot is Already Reserved.");
-        }
-    });
-
+    } else {
+        alert("This Spot is Already Reserved.");
+    }
 });
 
-//For Lab Table
 
-const labData = {
-    "A": [
-        { time: "9:00 AM - 10:00 AM", station: "PC-01", status: "Available", user: null, link: null },
-        { time: "9:00 AM - 10:00 AM", station: "PC-02", status: "Reserved", user: "Felix Kjellberg", link: "/profile?user=felix" },
-        { time: "9:00 AM - 10:00 AM", station: "PC-03", status: "Reserved", user: "Mark Fishbach", link: "/profile?user=mark" }
-    ],
-    "B": [
-        { time: "9:00 AM - 10:00 AM", station: "LIB-01", status: "Reserved", user: "Anonymous", link: null },
-        { time: "9:00 AM - 10:00 AM", station: "LIB-02", status: "Available", user: null, link: null },
-        { time: "10:00 AM - 11:00 AM", station: "LIB-01", status: "Reserved", user: "Hermione G.", link: "/profile?user=hermione" }
-    ],
-    "Mac": [
-        { time: "9:00 AM - 10:00 AM", station: "MAC-01", status: "Reserved", user: "M. Brownlee", link: "/profile?user=marques" },
-        { time: "9:00 AM - 10:00 AM", station: "MAC-02", status: "Reserved", user: "Linus S.", link: "/profile?user=linus" },
-        { time: "10:00 AM - 11:00 AM", station: "MAC-01", status: "Available", user: null, link: null }
-    ]
-};
-
-
-function renderLabTables() {
+async function renderLabTables() {
     
     const mapping = {
-        "A": "body-lab-a",
-        "B": "body-lab-b",
-        "Mac": "body-mac-lab"
+        "lab-a": "body-lab-a",
+        "lab-b": "body-lab-b",
+        "mac-lab-a": "body-mac-lab-a", 
+        "lab-c": "body-lab-c", 
+        "mac-lab-b": "body-mac-lab-b"
     };
 
-    for (const [labKey, bookings] of Object.entries(labData)) {
-        const tbody = document.getElementById(mapping[labKey]);
+    for (const [labId, tbodyId] of Object.entries(mapping)) {
+
+        const tbody = document.getElementById(tbodyId);
         if (!tbody) continue;
 
-        tbody.innerHTML = ""; 
+        try {
+            const response = await fetch(`/api/reservations/${labId}`);
+            const bookings = await response.json();
 
-        bookings.forEach(booking => {
-            
-            let userDisplay = "-";
-            if (booking.user) {
-                if (booking.link) {
-                    userDisplay = `<a href="${booking.link}">${booking.user}</a>`;
-                } else {
-                    userDisplay = `<em>${booking.user}</em>`;
+            tbody.innerHTML = ""; 
+
+            bookings.forEach(booking => {
+                let userDisplay = "-";
+
+                if (booking.status === "Reserved" && booking.username) {
+                    userDisplay = `<a href="/profile?user=${booking.username}">${booking.username}</a>`;
+                } else if (booking.status === "Reserved") {
+                    userDisplay = `<em>Anonymous</em>`;
                 }
-            }
 
-            let buttonHtml = "";
-            if (booking.status === "Available") {
-                buttonHtml = `<button class="reserve_spot">Reserve This Spot</button>`;
-            } else {
-                buttonHtml = `<button class="reserve_spot" cursor:not-allowed">Unavailable</button>`;
-            }
+                let buttonHtml = "";
+                if (booking.status === "Available") {
+                    buttonHtml = `<button class="reserve_spot" style="background-color: blue; color: white; cursor: pointer;">Reserve This Spot</button>`;
+                } else {
+                    buttonHtml = `<button class="reserve_spot" style="background-color: lightgray; color: black; cursor: not-allowed;">Unavailable</button>`;
+                }
 
-            const row = `
-                <tr>
-                    <td>${booking.time}</td>
-                    <td>${booking.station}</td>
-                    <td class="status">${booking.status}</td>
-                    <td>${userDisplay}</td>
-                    <td>${buttonHtml}</td>
-                </tr>
-            `;
-            tbody.innerHTML += row;
-        });
+                const row = `
+                    <tr>
+                        <td>${booking.time}</td>
+                        <td>${booking.station}</td>
+                        <td class="status">${booking.status}</td>
+                        <td>${userDisplay}</td>
+                        <td>${buttonHtml}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        } catch (error) {
+            console.error(`Error loading lab data for ${labId}:`, error);
+        }
     }
+
+    statusColor();  
 }
 
 function showLabTable() {
@@ -257,18 +202,26 @@ function showLabTable() {
 
     const tableA = document.getElementById("table-lab-a");
     const tableB = document.getElementById("table-lab-b");
-    const tableMac = document.getElementById("table-mac-lab");
+    const tableMacA = document.getElementById("table-mac-lab-a");
+    const tableC = document.getElementById("table-lab-c"); 
+    const tableMacB = document.getElementById("table-mac-lab-b")
 
     if (tableA) tableA.classList.add("hidden");
     if (tableB) tableB.classList.add("hidden");
-    if (tableMac) tableMac.classList.add("hidden");
+    if (tableMacA) tableMacA.classList.add("hidden");
+    if (tableC) tableC.classList.add("hidden"); 
+    if (tableMacB) tableMacB.classList.add("hidden"); 
 
     if (selectedValue === "A" && tableA) {
         tableA.classList.remove("hidden");
     } else if (selectedValue === "B" && tableB) {
         tableB.classList.remove("hidden");
-    } else if (selectedValue === "Mac" && tableMac) {
-        tableMac.classList.remove("hidden");
+    } else if (selectedValue === "Mac A" && tableMacA) {
+        tableMacA.classList.remove("hidden");
+    } else if (selectedValue === "C" && tableC) {
+        tableC.classList.remove("hidden");
+    } else if (selectedValue === "Mac B" && tableMacB) {
+        tableMacB.classList.remove("hidden");
     }
 }
 
@@ -277,40 +230,35 @@ document.addEventListener('DOMContentLoaded', () => {
     showLabTable(); 
 });
 
-//For Searching Slots
-const availableSlots = [
-    { 
-        date: "Oct 25, 2023", 
-        time: "10:00 AM - 10:30 AM", 
-        labName: "Computer Lab A", 
-        labId: "lab-a", 
-        station: "PC-04" 
-    },
-    { 
-        date: "Oct 25, 2023", 
-        time: "10:30 AM - 11:00 AM", 
-        labName: "Computer Lab A", 
-        labId: "lab-a",
-        station: "PC-04" 
-    },
-    { 
-        date: "Oct 25, 2023", 
-        time: "2:00 PM - 2:30 PM", 
-        labName: "Mac Lab", 
-        labId: "mac-lab",
-        station: "MAC-01" 
-    },
-    { 
-        date: "Oct 26, 2023", 
-        time: "9:00 AM - 9:30 AM", 
-        labName: "Computer Lab B", 
-        labId: "lab-b",
-        station: "LIB-03" 
+async function fetchAndRenderSlots(labFilter = "all", dateFilter = "", timeFilter = "") {
+    try {
+        const response = await fetch('/api/all-reservations');
+        const reservations = await response.json();
+        
+        let available = reservations.filter(res => res.status === "Available");
+        
+        if (labFilter !== "all") {
+            available = available.filter(res => res.lab_id === labFilter);
+        }
+       
+        if (dateFilter !== "") {
+            available = available.filter(res => res.date === dateFilter);
+        }
+
+        if (timeFilter !== "") {
+            available = available.filter(res => res.time.includes(timeFilter));
+        }
+        
+        renderTable(available);
+    } catch (error) {
+        console.error("Error fetching slots:", error);
     }
-];
+}
 
 function renderTable(data) {
     const tableBody = document.getElementById('results-body');
+    if (!tableBody) return; 
+    
     tableBody.innerHTML = ""; 
 
     if (data.length === 0) {
@@ -318,12 +266,21 @@ function renderTable(data) {
         return;
     }
 
+    // Map DB lab_id to friendly names for the search table
+    const labNames = {
+        "lab-a": "Computer Lab A",
+        "lab-b": "Computer Lab B",
+        "mac-lab-a": "Mac Lab A", 
+        "lab-c": "Computer Lab C", 
+        "mac-lab-b": "Mac Lab B"
+    };
+
     data.forEach(slot => {
         const row = `
             <tr>
                 <td>${slot.date}</td>
                 <td>${slot.time}</td>
-                <td>${slot.labName}</td>
+                <td>${labNames[slot.lab_id] || slot.lab_id}</td>
                 <td>${slot.station}</td>
                 <td class="center-text">
                     <button class="reserve-btn">Reserve</button>
@@ -334,31 +291,70 @@ function renderTable(data) {
     });
 }
 
-function filterSlots() {
-    const selectedLab = document.getElementById('search-lab').value;
+//Helper Function for Searching by Time 
+function formatSearchDate(dateString) {
+    if (!dateString) return "";
     
-    if (selectedLab === "all") {
-        renderTable(availableSlots);
-    } else {
-        const filteredData = availableSlots.filter(slot => slot.labId === selectedLab);
-        renderTable(filteredData);
-    }
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const parts = dateString.split('-');
+    
+    if(parts.length !== 3) return dateString;
+    
+    const year = parts[0];
+    const month = months[parseInt(parts[1], 10) - 1];
+    const day = parseInt(parts[2], 10); 
+
+    return `${month} ${day}, ${year}`;
+}
+
+//Helper Function for Searching by Time 
+function formatSearchTime(timeString) {
+    if (!timeString) return "";
+    
+    const parts = timeString.split(':');
+    if (parts.length !== 2) return timeString;
+    
+    let hours = parseInt(parts[0], 10);
+    const minutes = parts[1];
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    hours = hours % 12;
+    hours = hours ? hours : 12; 
+    
+    return `${hours}:${minutes} ${ampm}`; 
+}
+
+function filterSlots() {
+
+    const selectedLab = document.getElementById('search-lab')?.value || "all";
+    const selectedDate = document.getElementById('search-date')?.value || "";
+    const selectedTime = document.getElementById('search-time')?.value || "";
+
+    const formattedDate = formatSearchDate(selectedDate); 
+    const formattedTime = formatSearchTime(selectedTime); 
+
+    fetchAndRenderSlots(selectedLab, selectedDate, selectedTime);
     
     alert(`Search complete! Showing results for: ${selectedLab}`);
 }
 
-function reserveStation(stationId) {
-    alert(`You have successfully reserved station: ${stationId}`);
-}
-    
+// Ensure the tables load when the page is ready
 document.addEventListener('DOMContentLoaded', () => {
-    renderTable(availableSlots);
+    if (document.getElementById('results-body')) {
+        fetchAndRenderSlots("all");
+    }
 });
 
+// Alert Reserve buttons
+$(document).on('click', '.reserve_spot, .reserve-btn', function() {
 
+    const row = $(this).closest('tr');
+    const time = row.find('td:eq(0)').text();
+    const station = row.find('td:eq(1)').text(); 
 
-
-
+    // Trigger the alert
+    alert(`Spot Reserved!\n\nStation: ${station}\nTime: ${time}\n`);
+});
 
 
 
