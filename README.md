@@ -20,6 +20,8 @@ STEPS IN ACCESSING THE WEBSITE
         i.) Run the command npm init in CMD of your project directory. 
         ii.) Run the commmand npm install mongoose in CMD of your project directory. 
 
-    
+2.) Running in the Terminal of VS Code 
+    i.) Type node seed.js for the data to be connected to MongoDB. 
+    ii.) Type node server.js for the address to the website. 
 
         
