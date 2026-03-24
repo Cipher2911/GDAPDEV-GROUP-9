@@ -31,6 +31,7 @@ app.use(session({
 app.get('/', (req, res) => res.render('login', { hideNav: true }));
 app.get('/sign_up', (req, res) => res.render('sign_up', { hideNav: true }));
 app.get('/home', (req, res) => res.render('home'));
+
 app.get('/about_page', (req, res) => {
     res.render('about_page', { user: req.session?.user });
 });
@@ -134,7 +135,8 @@ app.post('/login', async (req, res) => {
         if (user.password !== password) {
             return res.render('login', { 
                 error: "Incorrect password.", 
-                hideNav: true 
+                hideNav: true, 
+                formData: { username: username }
             });
         }
 
@@ -143,7 +145,10 @@ app.post('/login', async (req, res) => {
 
     } catch (error) {
         console.error("Login error:", error);
-        res.status(500).send("Error logging in.");
+        res.render('login', {
+            error: "An error occurred during login. Please try again.",
+            hideNav: true
+        });
     }
 });
 
@@ -154,7 +159,37 @@ app.post('/sign_up', async (req, res) => {
         const { name, username, dlsu_id, college, email, password } = req.body; 
 
         if (password !== req.body['confirm-password']) {
-            return res.status(400).send("Passwords do not match. Please go back and try again.");
+            return res.render('sign_up', { 
+                error: "Passwords do not match.", 
+                hideNav: true, 
+                formData: req.body
+            });
+        }
+
+        const existingUser = await User.findOne({
+            $or: [
+                { username: username },
+                { email: email },
+                { dlsu_id: dlsu_id }
+            ]
+        });
+
+        if (existingUser) {
+            let errorMessage = "Account already exists.";
+   
+            if (existingUser.email === email) {
+                errorMessage = "This DLSU Email is already in use.";
+            } else if (existingUser.username === username) {
+                errorMessage = "This Display Username is already taken.";
+            } else if (String(existingUser.dlsu_id) === String(dlsu_id)) {
+                errorMessage = "This DLSU ID Number is already registered.";
+            }
+
+            return res.render('sign_up', { 
+                error: errorMessage, 
+                hideNav: true, 
+                formData: req.body
+            });
         }
 
         const newAvatar = name.substring(0, 2).toUpperCase();
@@ -174,7 +209,11 @@ app.post('/sign_up', async (req, res) => {
 
     } catch (error) {
         console.error("Signup error: ", error); 
-        res.status(500).send("Error creating account. Email has already been used.")
+        res.render('sign_up', { 
+            error: "An unexpected error occurred. Please try again.", 
+            hideNav: true, 
+            formData: req.body
+        });
     }
 
 });

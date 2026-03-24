@@ -4,36 +4,42 @@
     <p>Join AnimoSync today!</p>
     <br>
 
-    <form action="/sign_up" method="POST">
+    {{#if error}}
+        <div class="warning-login">{{error}}</div>
+    {{/if}}
+
+    <div id="client-error" class="warning-login" style="display: none;"></div>
+
+    <form id="signup-form" action="/sign_up" method="POST">
         
         <label for="name">Full Name:</label><br>
-        <input type="text" id="name" name="name" class="form-input" placeholder="e.g. Juan Dela Cruz" required>
+        <input type="text" id="name" name="name" class="form-input" value="{{formData.name}}" placeholder="e.g. Juan Dela Cruz" required>
         <br><br>
 
         <label for="username">Display Username:</label><br>
-        <input type="text" id="username" name="username" class="form-input" placeholder="e.g. juandc" required>
+        <input type="text" id="username" name="username" class="form-input" value="{{formData.username}}" placeholder="e.g. juandc" required>
         <br><br>
 
         <label for="dlsu_id">DLSU ID Number:</label><br>
-        <input type="number" id="dlsu_id" name="dlsu_id" class="form-input" placeholder="e.g. 12400000" required>
+        <input type="number" id="dlsu_id" name="dlsu_id" class="form-input" value="{{formData.dlsu_id}}" placeholder="e.g. 12400000" required>
         <br><br>
 
         <label for="college">College:</label><br>
         <select id="college" name="college" class="form-input" required style="width: 18%; padding: 8px;">
             <option value="" disabled selected>Select your College</option>
-            <option value="College of Computer Studies">College of Computer Studies</option>
-            <option value="Gokongwei College of Engineering">Gokongwei College of Engineering</option>
-            <option value="College of Science">College of Science</option>
-            <option value="College of Business">Ramon V. Del Rosario College of Business</option>
-            <option value="College of Liberal Arts">College of Liberal Arts</option>
-            <option value="Carlos L. Tiu School of Economics">Carlos L. Tiu School of Economics</option>
-            <option value="Tañada-Diokno School of Law">Tañada-Diokno School of Law</option>
             <option value="Br. Andrew Gonzalez FSC College of Education">Br. Andrew Gonzalez FSC College of Education</option>
+            <option value="Carlos L. Tiu School of Economics">Carlos L. Tiu School of Economics</option>
+            <option value="College of Computer Studies">College of Computer Studies</option>
+            <option value="College of Liberal Arts">College of Liberal Arts</option>
+            <option value="College of Science">College of Science</option>
+            <option value="Gokongwei College of Engineering">Gokongwei College of Engineering</option>
+            <option value="Ramon V. Del Rosario College of Business">Ramon V. Del Rosario College of Business</option>
+            <option value="Tañada-Diokno School of Law">Tañada-Diokno School of Law</option>
         </select>
         <br><br>
 
         <label for="email">DLSU Email:</label><br>
-        <input type="email" id="email" name="email" class="form-input" placeholder="e.g. juan_delacruz@dlsu.edu.ph" required>
+        <input type="email" id="email" name="email" class="form-input" value="{{formData.email}}" placeholder="e.g. juan_delacruz@dlsu.edu.ph" required>
         <br><br>
 
         <label for="password">Password:</label><br>

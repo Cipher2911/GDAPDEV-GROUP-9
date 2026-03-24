@@ -24,6 +24,55 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+//Sign-in Functions
+document.addEventListener("DOMContentLoaded", function() {
+
+    const signupForm = document.getElementById("signup-form");
+
+    if (signupForm) {
+        signupForm.addEventListener("submit", function(event) {
+            
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+            const email = document.getElementById("email").value.trim();
+            const dlsu_id = document.getElementById("dlsu_id").value.trim();
+        
+            const errorDiv = document.getElementById("client-error");
+            const serverErrorDiv = document.querySelector(".warning-login:not(#client-error)");
+            
+            let errors = [];
+
+            if (password !== confirmPassword) {
+                errors.push("Passwords do not match.");
+            }
+
+            if (!email.toLowerCase().endsWith("@dlsu.edu.ph")) {
+                errors.push("Please use a valid @dlsu.edu.ph email address.");
+            }
+
+            const idRegex = /^\d{8}$/;
+            if (!idRegex.test(dlsu_id)) {
+                errors.push("DLSU ID must be exactly 8 digits.");
+            }
+
+            if (errors.length > 0) {
+                event.preventDefault(); 
+                
+                if (serverErrorDiv) {
+                    serverErrorDiv.style.display = "none";
+                }
+
+                errorDiv.innerHTML = errors.join("<br>");
+                errorDiv.style.display = "block";
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                errorDiv.style.display = "none";
+            }
+        });
+    }
+});
+
 //Link to a User 
 $(document).ready(async function() {
     if (window.location.pathname.includes("/profile")) {
