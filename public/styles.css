@@ -8,7 +8,8 @@ body {
     padding: 20px;
     background-color: #333; 
     color: white;
-    overflow: hidden;
+    justify-content: space-between; 
+    align-items: center;
 }
 
 #logo {
@@ -23,6 +24,10 @@ body {
     padding-top: 5px;
 }
 
+#logout-link:hover, #about:hover, .dropbtn:hover {
+    color: yellow; 
+}
+
 #profile-link{
     margin-right: 20px;
     color: white;
@@ -34,7 +39,70 @@ body {
      float: right;
      display: flex; 
      align-items: center;
-     height: 100%; 
+     height: 100%;
+}
+
+#about {
+    float: right;
+    color: white;
+    text-decoration: none;
+    padding-top: 5px;
+    margin-right: 20px; 
+}
+
+/* Dropdown Buttons */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.dropbtn {
+    background-color: transparent;
+    color: white;
+    padding-top: 8px;
+    font-size: 16.5px;
+    border: none;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0; 
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 4px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Warning for Login */ 
+.warning-login {
+    background-color: #ffe6e6; 
+    color: #cc0000;
+    padding: 10px; 
+    border: 1px solid #cc0000; 
+    border-radius: 5px; 
+    margin-bottom: 15px; 
+    text-align: center;
 }
 
 /* Main Content Styles */
@@ -59,6 +127,13 @@ body {
     margin-top: 100px;
 }
 
+/* Home Page Button */ 
+
+.action-btn:hover {
+    color: white;
+    background-color: blue;
+}
+
 /* Label Styles */
 label {
     font-weight: bold;
@@ -74,13 +149,13 @@ label {
 .submit-btn {
     padding: 10px 30px;
     cursor: pointer;
-    background-color: #007bff; 
+    background-color: blue; 
     color: white;
     border: none;
 }
 
 .submit-btn:hover {
-    background-color: #0056b3; 
+    background-color: darkblue; 
 }
 
 /* --- Search Page Specific Styles --- */
@@ -181,13 +256,63 @@ label {
 .reserve-btn {
     background-color: #007bff; 
     color: white;
-    border: none;
+    border: none; 
     padding: 5px 10px;
     cursor: pointer;
 }
 
 .reserve-btn:hover {
     background-color: #0056b3;
+}
+
+/* Green Reserved Button */ 
+
+.reserved-btn {
+    background-color: green; 
+    color: white;
+    border: none; 
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* Red Cancel Button */ 
+
+.cancel-btn {
+    background-color: red; 
+    color: white; 
+    cursor: pointer; 
+    border: none; 
+    padding: 5px 10px;
+}
+
+.cancel-btn:hover{
+    background-color: rgb(177, 0, 0); 
+}
+
+/* Unavailable Button */ 
+
+.unavailable{
+    background-color: lightgray; 
+    color: black; 
+    cursor: not-allowed;
+    border: none;
+    padding: 5px 10px;
+}
+
+/* Delete Profile Button */ 
+.delete-profile-btn{
+    background-color: darkred; 
+    color: white; 
+    border: none; 
+    padding: 10px 15px; 
+    border-radius: 5px; 
+    cursor: pointer;
+    margin-top: 15px; 
+    width: 100%;
+}
+
+.delete-profile-btn:hover{
+    background-color: red;
 }
 
 /* Main Container */
@@ -205,6 +330,7 @@ label {
 .warning-text {
     color: red;
     font-style: italic;
+    margin-bottom: 20px;
 }
 
 /* Headings within sections */
@@ -236,7 +362,7 @@ h3 {
     display: none;
 }
 
-.login-link {
+.login-link, .home-btn {
     display: inline-block;
     background-color: #007bff;
     color: white; 
@@ -246,9 +372,10 @@ h3 {
     transition: background-color 0.2s ease;
 }
 
-.login-link:hover {
+.login-link:hover, .home-btn:hover {
     background-color: #0056b3;
 }   
+
 /* Profile Elements */ 
 .profile-card {
     background-color: #f9f9f9;
@@ -297,4 +424,21 @@ h3 {
     border-top: 1px solid #eee;
     margin: 30px 0;
 
+}
+
+/* About Page */ 
+
+.profile-card {
+    max-width: 800px; 
+    text-align: left;
+}
+
+h3 {
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px; 
+}
+
+ul {
+    line-height: 1.8; 
+    font-size: 16px;
 }

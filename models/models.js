@@ -1,15 +1,30 @@
 const mongoose = require('mongoose'); 
 
+//User Model
 const user_schema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     dlsu_id: { type: String, required: true },
     college: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    avatar: { type: String, required: true }
+    avatar: { type: String, required: true }, 
+    password: {type: String, required: true}
 });
 
 const User = mongoose.model('User', user_schema); 
+
+//Admin Model 
+
+const admin_schema = new mongoose.Schema({
+    username: { type: String, required: true, unique: true }, 
+    name: { type: String, required: true }, 
+    admin_id: { type: String, required: true }, 
+    email: { type: String, required: true }, 
+    avatar: { type: String, required: true }, 
+    password: { type: String, required: true }
+}); 
+
+const Admin = mongoose.model('Admin', admin_schema); 
 
 // Lab Model 
 const lab_schema = new mongoose.Schema({
@@ -36,6 +51,7 @@ const Reservation = mongoose.model('Reservation', reservation_schema);
 // Export the models using CommonJS
 module.exports = {
     User,
+    Admin, 
     Lab,
     Reservation
 };

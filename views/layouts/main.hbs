@@ -9,10 +9,21 @@
     <div id="header">
         <span id="logo">LOGO</span>
         
-        <div id="nav-links" style="float: right;">
-            <a href="/profile" id="profile-link" style="margin-right: 20px;">View Profile</a>
+        {{#unless hideNav}}
+        <div id="nav-links">
+            
+            <div class="dropdown">
+                <button class="dropbtn">Profile ▼</button>
+                <div class="dropdown-content">
+                    <a href="/profile">View Profile</a>
+                    <a href="/my-reservations">My Reservations</a>
+                </div>
+            </div>
+
+            <a href="/about_page" id="about">About Page</a>
             <a href="/" id="logout-link">Log Out</a>
         </div>
+        {{/unless}}
     </div>
 
     {{{body}}}

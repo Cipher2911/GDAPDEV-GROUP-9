@@ -3,7 +3,13 @@
     <p>Please enter your details below.</p>
     <br>
 
-    <form action="/home">
+    {{#if error}}
+        <div class="warning-login">
+            <strong>Warning:</strong> {{error}}
+        </div>
+    {{/if}}
+    
+    <form action="/login" method="POST">
         <label for="username">User Email:</label><br>
         <input type="text" id="username" name="username" class="form-input" required>
         <br><br>

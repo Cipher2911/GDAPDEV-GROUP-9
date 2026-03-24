@@ -88,54 +88,78 @@ function statusColor(){
     });
 }
 
-//For Home Page 
-$(document).ready(function(){
-    $(".action-btn").click(function(){
-        $(this).css("color", "white"); 
-        $(this).css("background-color", "blue"); 
-    }); 
-});
-
-//Reserve Button 
-$(document).on("click", ".reserve-btn", function(){
-    $(this).css("color", "white"); 
-    $(this).css("background-color", "green"); 
-    $(this).text("Reserved");
-});
-
-//Submit Button for Log-in 
-$(document).ready(function(){
-    $(".submit-btn").click(function(){
-        $(this).css("color", "white"); 
-        $(this).css("background-color", "darkblue"); 
-    }); 
-}); 
-
 //Reserve This Spot Button 
-$(document).on("click", ".reserve_spot", function() {
-    var currentText = $(this).text().trim();
+$(document).on("click", ".reserve_spot", async function() {
+    const btn = $(this);
 
-    if(currentText === "Reserve This Spot") {
+    const date = btn.data("date");
+    const time = btn.data("time");
+    const lab_id = btn.data("lab");
+    const station = btn.data("station");
 
-        $(this).text("Unavailable");
-        $(this).css({
-            "background-color": "lightgray",
-            "color": "black",
-            "cursor": "not-allowed"
+    try {
+        const response = await fetch('/api/reserve', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ date, time, lab_id, station })
         });
         
-        $(this).closest("tr").find(".status").text("Reserved");
+        const result = await response.json();
 
-        if (typeof statusColor === "function") {
-            statusColor();
+        if (result.success) {
+            alert(`Spot Reserved!\n\nStation: ${station}\nTime: ${time}\n`);
+            if (window.location.pathname.includes('/search')) {
+                document.querySelector('.search-btn').click(); 
+            } else {
+                renderLabTables(); 
+            }
+        } else {
+            alert(result.message || "Failed to reserve spot. You might not be logged in.");
         }
-
-    } else {
-        alert("This Spot is Already Reserved.");
+    } catch (error) {
+        console.error("Error making reservation:", error);
+        alert("An error occurred while communicating with the database.");
     }
 });
 
+// Cancel Spot Button
+$(document).on("click", ".cancel_spot", async function() {
+    if(!confirm("Are you sure you want to cancel this reservation?")) return;
 
+    const btn = $(this);
+    const date = btn.data("date");
+    const time = btn.data("time");
+    const lab_id = btn.data("lab");
+    const station = btn.data("station");
+
+    try {
+        const response = await fetch('/api/cancel', {
+            method: 'PATCH', 
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ date, time, lab_id, station })
+        });
+        
+        const result = await response.json();
+
+        if (result.success) {
+            alert(result.message);
+            if (window.location.pathname.includes('/search')) {
+                document.querySelector('.search-btn').click(); 
+            } else if(window.location.pathname.includes('/profile')) {
+                fetchAndRenderUserReservations(); 
+            } else {
+                renderLabTables(); 
+            }
+        } else {
+            alert(result.message || "Failed to cancel reservation.");
+        }
+    } catch (error) {
+        console.error("Error cancelling reservation:", error);
+        alert("An error occurred while communicating with the database.");
+    }
+});
+
+//For Reserve Page 
 async function renderLabTables() {
     
     const mapping = {
@@ -168,9 +192,19 @@ async function renderLabTables() {
 
                 let buttonHtml = "";
                 if (booking.status === "Available") {
-                    buttonHtml = `<button class="reserve_spot" style="background-color: blue; color: white; cursor: pointer;">Reserve This Spot</button>`;
+                    buttonHtml = `<button class="reserve_spot reserve-btn" 
+                        data-date="${booking.date}" 
+                        data-time="${booking.time}" 
+                        data-lab="${booking.lab_id}" 
+                        data-station="${booking.station}">Reserve This Spot</button>`;
+                } else if (booking.status === "Reserved" && booking.isMine) {
+                    buttonHtml = `<button class="reserve_spot reserved-btn" 
+                        data-date="${booking.date}" 
+                        data-time="${booking.time}" 
+                        data-lab="${booking.lab_id}" 
+                        data-station="${booking.station}">Reserved</button>`;
                 } else {
-                    buttonHtml = `<button class="reserve_spot" style="background-color: lightgray; color: black; cursor: not-allowed;">Unavailable</button>`;
+                    buttonHtml = `<button class="unavailable">Unavailable</button>`;
                 }
 
                 const row = `
@@ -230,28 +264,24 @@ document.addEventListener('DOMContentLoaded', () => {
     showLabTable(); 
 });
 
+//For Search Page 
 async function fetchAndRenderSlots(labFilter = "all", dateFilter = "", timeFilter = "") {
     try {
-        const response = await fetch('/api/all-reservations');
-        const reservations = await response.json();
+        const response = await fetch('/api/search-slots', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                lab: labFilter,
+                date: dateFilter,
+                time: timeFilter
+            })
+        });
         
-        let available = reservations.filter(res => res.status === "Available");
-        
-        if (labFilter !== "all") {
-            available = available.filter(res => res.lab_id === labFilter);
-        }
-       
-        if (dateFilter !== "") {
-            available = available.filter(res => res.date === dateFilter);
-        }
-
-        if (timeFilter !== "") {
-            available = available.filter(res => res.time.includes(timeFilter));
-        }
-        
-        renderTable(available);
+        const availableSlots = await response.json();
+      
+        renderTable(availableSlots);
     } catch (error) {
-        console.error("Error fetching slots:", error);
+        console.error("Error fetching filtered slots:", error);
     }
 }
 
@@ -266,7 +296,6 @@ function renderTable(data) {
         return;
     }
 
-    // Map DB lab_id to friendly names for the search table
     const labNames = {
         "lab-a": "Computer Lab A",
         "lab-b": "Computer Lab B",
@@ -276,6 +305,22 @@ function renderTable(data) {
     };
 
     data.forEach(slot => {
+        let actionBtn = "";
+       
+        if (slot.status === "Available") {
+            actionBtn = `<button class="reserve_spot reserve-btn" 
+                data-date="${slot.date}" 
+                data-time="${slot.time}" 
+                data-lab="${slot.lab_id}" 
+                data-station="${slot.station}">Reserve</button>`;
+        } else if (slot.isMine) {
+            actionBtn = `<button class="reserve_spot reserved-btn" 
+                data-date="${slot.date}" 
+                data-time="${slot.time}" 
+                data-lab="${slot.lab_id}" 
+                data-station="${slot.station}">Reserved</button>`;
+        }
+
         const row = `
             <tr>
                 <td>${slot.date}</td>
@@ -283,7 +328,7 @@ function renderTable(data) {
                 <td>${labNames[slot.lab_id] || slot.lab_id}</td>
                 <td>${slot.station}</td>
                 <td class="center-text">
-                    <button class="reserve-btn">Reserve</button>
+                    ${actionBtn}
                 </td>
             </tr>
         `;
@@ -291,70 +336,171 @@ function renderTable(data) {
     });
 }
 
-//Helper Function for Searching by Time 
-function formatSearchDate(dateString) {
-    if (!dateString) return "";
-    
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const parts = dateString.split('-');
-    
-    if(parts.length !== 3) return dateString;
-    
-    const year = parts[0];
-    const month = months[parseInt(parts[1], 10) - 1];
-    const day = parseInt(parts[2], 10); 
-
-    return `${month} ${day}, ${year}`;
-}
-
-//Helper Function for Searching by Time 
-function formatSearchTime(timeString) {
-    if (!timeString) return "";
-    
-    const parts = timeString.split(':');
-    if (parts.length !== 2) return timeString;
-    
-    let hours = parseInt(parts[0], 10);
-    const minutes = parts[1];
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    
-    hours = hours % 12;
-    hours = hours ? hours : 12; 
-    
-    return `${hours}:${minutes} ${ampm}`; 
-}
-
 function filterSlots() {
 
     const selectedLab = document.getElementById('search-lab')?.value || "all";
-    const selectedDate = document.getElementById('search-date')?.value || "";
-    const selectedTime = document.getElementById('search-time')?.value || "";
+    let selectedDate = document.getElementById('search-date')?.value || "";
+    let selectedTime = document.getElementById('search-time')?.value || "";
 
-    const formattedDate = formatSearchDate(selectedDate); 
-    const formattedTime = formatSearchTime(selectedTime); 
+    let formattedDate = "";
+    let formattedTime = "";
 
-    fetchAndRenderSlots(selectedLab, selectedDate, selectedTime);
-    
-    alert(`Search complete! Showing results for: ${selectedLab}`);
+    if (selectedDate) {
+        const dateObj = new Date(selectedDate);
+        dateObj.setMinutes(dateObj.getMinutes() + dateObj.getTimezoneOffset());
+        
+        const options = { month: 'short', day: 'numeric', year: 'numeric' };
+        formattedDate = dateObj.toLocaleDateString('en-US', options); 
+    }
+
+    if (selectedTime) {
+        let [hours, minutes] = selectedTime.split(':');
+        let hoursInt = parseInt(hours, 10);
+        let ampm = hoursInt >= 12 ? 'PM' : 'AM';
+        hoursInt = hoursInt % 12 || 12; 
+        formattedTime = `${hoursInt}:${minutes} ${ampm}`;
+    }
+
+    fetchAndRenderSlots(selectedLab, formattedDate, formattedTime);
 }
 
-// Ensure the tables load when the page is ready
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('results-body')) {
         fetchAndRenderSlots("all");
     }
 });
 
-// Alert Reserve buttons
-$(document).on('click', '.reserve_spot, .reserve-btn', function() {
+//For View Profile Page
+async function fetchAndRenderProfile() {
+    const tableBody = document.getElementById('user-profile-body');
+    if (!tableBody) return; 
 
-    const row = $(this).closest('tr');
-    const time = row.find('td:eq(0)').text();
-    const station = row.find('td:eq(1)').text(); 
+    const urlParams = new URLSearchParams(window.location.search);
+    const userKey = urlParams.get('user');
 
-    // Trigger the alert
-    alert(`Spot Reserved!\n\nStation: ${station}\nTime: ${time}\n`);
+    try {
+        const response = await fetch('/api/all-reservations');
+        const reservations = await response.json();
+      
+        const profileReservations = reservations.filter(res => res.username === userKey && res.status === "Reserved");
+
+        tableBody.innerHTML = ""; 
+
+        if (profileReservations.length === 0) {
+            tableBody.innerHTML = "<tr><td colspan='4' class='center-text'>No active reservations.</td></tr>";
+            return;
+        }
+
+        const labNames = {
+            "lab-a": "Computer Lab A",
+            "lab-b": "Computer Lab B",
+            "mac-lab-a": "Mac Lab A", 
+            "lab-c": "Computer Lab C", 
+            "mac-lab-b": "Mac Lab B"
+        };
+
+        profileReservations.forEach(slot => {
+            const row = `
+                <tr>
+                    <td>${slot.date}</td>
+                    <td>${slot.time}</td>
+                    <td>${labNames[slot.lab_id] || slot.lab_id}</td>
+                    <td>${slot.station}</td>
+                </tr>
+            `;
+            tableBody.innerHTML += row;
+        });
+
+    } catch (error) {
+        console.error("Error fetching user reservations:", error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('user-profile-body')) {
+        fetchAndRenderProfile();
+    }
 });
 
+//For View Reservations Page 
+async function fetchAndRenderUserReservations() {
+    const tableBody = document.getElementById('user-reservations-body');
+    if (!tableBody) return; 
 
+    try {
+        const response = await fetch('/api/all-reservations');
+        const reservations = await response.json();
+        
+        const myReservations = reservations.filter(res => res.isMine && res.status === "Reserved");
 
+        tableBody.innerHTML = ""; 
+
+        if (myReservations.length === 0) {
+            tableBody.innerHTML = "<tr><td colspan='5' class='center-text'>You have no active reservations.</td></tr>";
+            return;
+        }
+
+        const labNames = {
+            "lab-a": "Computer Lab A",
+            "lab-b": "Computer Lab B",
+            "mac-lab-a": "Mac Lab A", 
+            "lab-c": "Computer Lab C", 
+            "mac-lab-b": "Mac Lab B"
+        };
+
+        myReservations.forEach(slot => {
+            const actionBtn = `<button class="cancel_spot cancel-btn" 
+                data-date="${slot.date}" 
+                data-time="${slot.time}" 
+                data-lab="${slot.lab_id}" 
+                data-station="${slot.station}">Cancel</button>`;
+
+            const row = `
+                <tr>
+                    <td>${slot.date}</td>
+                    <td>${slot.time}</td>
+                    <td>${labNames[slot.lab_id] || slot.lab_id}</td>
+                    <td>${slot.station}</td>
+                    <td class="center-text">${actionBtn}</td>
+                </tr>
+            `;
+            tableBody.innerHTML += row;
+        });
+
+    } catch (error) {
+        console.error("Error fetching user reservations:", error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('user-reservations-body')) {
+        fetchAndRenderUserReservations();
+    }
+});
+
+//Delete Profile Button 
+$(document).on("click", ".delete-profile-btn", async function() {
+    
+    const confirmDelete = confirm("Are you absolutely sure you want to delete your profile? This action cannot be undone, and all your current reservations will be cancelled.");
+    
+    if (!confirmDelete) return; 
+
+    try {
+        const response = await fetch('/api/user/delete', {
+            method: 'DELETE', 
+            headers: { 'Content-Type': 'application/json' }
+        });
+        
+        const result = await response.json();
+
+        if (result.success) {
+            alert("Your profile has been permanently deleted.");
+            window.location.href = "/";
+        } else {
+            alert(result.message || "Failed to delete profile.");
+        }
+    } catch (error) {
+        console.error("Error deleting profile:", error);
+        alert("An error occurred while communicating with the server.");
+    }
+});
