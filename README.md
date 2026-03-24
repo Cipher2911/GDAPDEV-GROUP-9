@@ -1,4 +1,4 @@
-STEPS IN ACCESSING THE WEBSITE 
+PACKAGES AND LIBRARIES USED FOR ANIMOSYNC
 
 1.) Download the Needed Files 
 
@@ -24,12 +24,19 @@ STEPS IN ACCESSING THE WEBSITE
         i.) Run the CMD of the file directory of your project 
         ii.) Type npm install express-session 
 
-2.) Running in the Terminal of VS Code 
-    i.) To load the data, type node seed.js for the data to be connected to MongoDB. However, typing node seed.js again resets the whole database after updating data in the website. 
-    ii.) Type node server.js for the address to the website. 
+ACCESSING THE WEBSITE: 
 
-        
-SAMPLE DATAS FOR LOGGING IN THE WEBSITE: 
+    1.) All the listed packages in this README file has already been listed in the package.json file of this folder. 
+    2.) Run the CMD of this file directory and type npm install. It will install all the packages needed for AnimoSync. 
+    3.) Open VS Code to access the files. 
+    4.) Open the VS Code Terminal. 
+    5.) In the terminal, type node seed.js for the data to be loaded and connected to MongoDB.
+    6.) Next, type node server.js to obtain the address for AnimoSync. 
+
+
+    NOTE: After completing Step 6, typing node seed.js again resets the whole database after updating the data in the website. 
+
+SAMPLE ACCOUNTS FOR LOGGING IN THE WEBSITE: 
 
 1.) Users 
     a.) Felix Kjellberg
