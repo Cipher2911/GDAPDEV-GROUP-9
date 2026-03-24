@@ -31,7 +31,6 @@ app.use(session({
 app.get('/', (req, res) => res.render('login', { hideNav: true }));
 app.get('/sign_up', (req, res) => res.render('sign_up', { hideNav: true }));
 app.get('/home', (req, res) => res.render('home'));
-app.get('/search', (req, res) => res.render('search'));
 app.get('/about_page', (req, res) => {
     res.render('about_page', { user: req.session?.user });
 });
@@ -39,6 +38,11 @@ app.get('/about_page', (req, res) => {
 app.get('/reserve', (req, res) => {
     if (!req.session.user) return res.redirect('/'); 
     res.render('reserve', { user: req.session.user });
+});
+
+app.get('/search', (req, res) => {
+    if (!req.session.user) return res.redirect('/'); 
+    res.render('search', { user: req.session.user}); 
 });
 
 app.get('/profile', async (req, res) => {
