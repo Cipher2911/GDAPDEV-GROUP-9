@@ -32,6 +32,8 @@ document.addEventListener("DOMContentLoaded", function() {
     if (signupForm) {
         signupForm.addEventListener("submit", function(event) {
             
+            const name = document.getElementById("name").value.trim(); 
+            const username = document.getElementById("username").value.trim(); 
             const password = document.getElementById("password").value;
             const confirmPassword = document.getElementById("confirm-password").value;
             const email = document.getElementById("email").value.trim();

@@ -2,6 +2,7 @@ const express = require('express');
 const { engine } = require('express-handlebars');
 const path = require('path');
 const session = require('express-session'); 
+const bcrypt = require('bcrypt');
 
 const { connectToMongo } = require('./models/conn');
 const { User, Admin, Lab, Reservation } = require('./models/models');
@@ -132,7 +133,9 @@ app.post('/login', async (req, res) => {
             });
         }
 
-        if (user.password !== password) {
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
             return res.render('login', { 
                 error: "Incorrect password.", 
                 hideNav: true, 
@@ -194,6 +197,9 @@ app.post('/sign_up', async (req, res) => {
 
         const newAvatar = name.substring(0, 2).toUpperCase();
 
+        const saltRounds = 10; 
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
         const newUser = new User({
             username: username, 
             name: name,
@@ -201,7 +207,7 @@ app.post('/sign_up', async (req, res) => {
             college: college,
             email: email,           
             avatar: newAvatar, 
-            password: password       
+            password: hashedPassword       
         });
 
         await newUser.save();

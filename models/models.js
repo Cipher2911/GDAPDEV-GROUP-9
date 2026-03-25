@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 
 //User Model
 const user_schema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    name: { type: String, required: true },
-    dlsu_id: { type: String, required: true },
-    college: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    avatar: { type: String, required: true }, 
-    password: {type: String, required: true}
+    username: { type: String, required: true, unique: true, trim: true },
+    name: { type: String, required: true, trim: true},
+    dlsu_id: { type: String, required: true, trim: true },
+    college: { type: String, required: true, trim: true },
+    email: { type: String, required: true, unique: true, trim: true },
+    avatar: { type: String, required: true, trim: true }, 
+    password: { type: String, required: true, trim: true }
 });
 
 const User = mongoose.model('User', user_schema); 
@@ -16,12 +16,12 @@ const User = mongoose.model('User', user_schema);
 //Admin Model 
 
 const admin_schema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true }, 
-    name: { type: String, required: true }, 
-    admin_id: { type: String, required: true }, 
-    email: { type: String, required: true }, 
-    avatar: { type: String, required: true }, 
-    password: { type: String, required: true }
+    username: { type: String, required: true, unique: true, trim: true }, 
+    name: { type: String, required: true, trim: true }, 
+    admin_id: { type: String, required: true, trim: true }, 
+    email: { type: String, required: true, trim: true }, 
+    avatar: { type: String, required: true, trim: true }, 
+    password: { type: String, required: true, trim: true }
 }); 
 
 const Admin = mongoose.model('Admin', admin_schema); 

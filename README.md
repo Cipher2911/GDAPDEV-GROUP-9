@@ -41,42 +41,42 @@ SAMPLE ACCOUNTS FOR LOGGING IN THE WEBSITE:
 1.) Users 
     a.) Felix Kjellberg
         Email: pewds@dlsu.edu.ph
-        Password: 1234
+        Password: BroFist1989
 
     b.) Mark Fishbach
         Email: markiplier@dlsu.edu.ph
-        Password: 1234
+        Password: Mark2013
 
     c.) Hermione Granger 
         Email: h.granger@dlsu.edu.ph
-        Password: 1234
+        Password: Ron2012
 
     d.) Marques Brownlee
         Email: mkbhd@dlsu.edu.ph
-        Password: 1234
+        Password: Tesla2026
 
     e.) Linus Sebastian
         Email: linus@dlsu.edu.ph
-        Password: 1234
+        Password: Linus2026
 
 2.) Admins
 
     a.) James McAvoy
         Email: admin_james@dlsu.edu.ph
-        Password: 1234
+        Password: Xavier2011
 
     b.) Max Verstappen 
         Email: admin_max@dlsu.edu.ph
-        Password: 1234
+        Password: Formula12024
 
     c.) Stephen Curry 
         Email: admin_steph@dlsu.edu.ph
-        Password: 1234
+        Password: ForThree1988
 
     d.) Luka Doncic
         Email: admin_luka@dlsu.edu.ph
-        Password: 1234
+        Password: Slovenia1999
 
     e.) David Guetta 
         Email: admin_david@dlsu.edu.ph
-        Password: 1234
+        Password: PlayTheBeat1967
