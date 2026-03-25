@@ -1,5 +1,9 @@
 <div class="header">
-    <a href="/home" class="login-link">Back to Home</a>
+    {{#if user}}
+        <a href="/home" class="login-link">Back to Home</a>
+    {{else}}
+        <a href="/" class="login-link">Back to Login</a>
+    {{/if}}
 </div>
 
 <div class="container">
@@ -15,6 +19,7 @@
             <li><strong>express-handlebars:</strong> The template engine used to render dynamic HTML views.</li>
             <li><strong>mongoose:</strong> An Object Data Modeling (ODM) library for MongoDB and Node.js used to manage database connections and schemas.</li>
             <li><strong>express-session:</strong> Middleware used to manage and store user session data for secure authentication.</li>
+            <li><strong>bcrypt:</strong> A password-hashing function used to securely encrypt and store user passwords in the database.</li>
         </ul>
 
         <br>

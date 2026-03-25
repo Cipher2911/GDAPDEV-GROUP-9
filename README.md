@@ -24,6 +24,10 @@ PACKAGES AND LIBRARIES USED FOR ANIMOSYNC
         i.) Run the CMD of the file directory of your project 
         ii.) Type npm install express-session 
 
+    e.) Install bcrypt for Password Hashing 
+        i.) Run the CMD of the file directory of your project 
+        ii.) Type npm install bcrypt
+
 ACCESSING THE WEBSITE: 
 
     1.) All the listed packages in this README file has already been listed in the package.json file of this folder. 
