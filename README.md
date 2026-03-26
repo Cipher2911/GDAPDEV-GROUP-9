@@ -28,7 +28,7 @@ PACKAGES AND LIBRARIES USED FOR ANIMOSYNC
         i.) Run the CMD of the file directory of your project. 
         ii.) Type npm install bcrypt. 
     
-    h.) Install dotenv for environment variables
+    h.) Install dotenv for adding environment variables
         i.) Run the CMD of the file directory of your project. 
         ii.) Type npm install dotenv. 
 
