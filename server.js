@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const { engine } = require('express-handlebars');
 const path = require('path');
@@ -22,7 +23,7 @@ app.use(express.json());
 //ROUTES 
 
 app.use(session({
-    secret: 'animosync-secret-key', 
+    secret: process.env.SESSION_SECRET, 
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false } 
