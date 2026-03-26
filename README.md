@@ -21,12 +21,16 @@ PACKAGES AND LIBRARIES USED FOR ANIMOSYNC
         ii.) Run the commmand npm install mongoose in CMD of your project directory. 
 
     f.) Install Session 
-        i.) Run the CMD of the file directory of your project 
-        ii.) Type npm install express-session 
+        i.) Run the CMD of the file directory of your project. 
+        ii.) Type npm install express-session. 
 
-    e.) Install bcrypt for Password Hashing 
-        i.) Run the CMD of the file directory of your project 
-        ii.) Type npm install bcrypt
+    g.) Install bcrypt for Password Hashing 
+        i.) Run the CMD of the file directory of your project. 
+        ii.) Type npm install bcrypt. 
+    
+    h.) Install dotenv for environment variables
+        i.) Run the CMD of the file directory of your project. 
+        ii.) Type npm install dotenv. 
 
 ACCESSING THE WEBSITE: 
 
