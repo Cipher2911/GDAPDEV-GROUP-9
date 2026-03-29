@@ -106,7 +106,8 @@ app.get('/api/all-reservations', async (req, res) => {
         
         const mappedReservations = allReservations.map(res => ({
             ...res,
-            isMine: currentUser ? res.username === currentUser : false
+            isMine: currentUser ? res.username === currentUser : false, 
+            isAdmin: req.session.isAdmin || false
         }));
         res.json(mappedReservations);
     } catch (error) {
@@ -116,6 +117,13 @@ app.get('/api/all-reservations', async (req, res) => {
 
 });
 
+//For Admin 
+app.get('/admin_view', (req, res) => {
+    if (!req.session.user || !req.session.isAdmin) {
+        return res.redirect('/'); 
+    }
+    res.render('admin_view', { user: req.session.user });
+});
 
 // POST Methods 
 
@@ -125,7 +133,13 @@ app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        const user = await User.findOne({ email: username });
+        let user = await User.findOne({ email: username });
+        let isAdmin = false; 
+
+        if (!user) {
+            user = await Admin.findOne({ email: username });
+            if (user) isAdmin = true;
+        }
         
         if (!user) {
             return res.render('login', { 
@@ -145,7 +159,13 @@ app.post('/login', async (req, res) => {
         }
 
         req.session.user = user;
-        res.redirect('/home');
+        req.session.isAdmin = isAdmin;
+        
+        if (isAdmin) {
+            res.redirect('/admin_view');
+        } else {
+            res.redirect('/home');
+        }
 
     } catch (error) {
         console.error("Login error:", error);
@@ -285,20 +305,36 @@ app.patch('/api/cancel', async (req, res) => {
     if (!req.session.user) return res.status(401).json({ error: "Not logged in" });
 
     try {
-        const { date, time, lab_id, station } = req.body;
+        const { date, time, lab_id, station, targetUsername } = req.body;
         const myUsername = req.session.user.username;
+        const isAdmin = req.session.isAdmin; 
+
+        let query = { date, time, lab_id, station, status: 'Reserved' };
+
+        if (!isAdmin) {
+            query.username = currentUser.username;
+        } else if (targetUsername) {
+            query.username = targetUsername;
+        }
 
         const reservation = await Reservation.findOneAndUpdate(
-            { date, time, lab_id, station, username: myUsername, status: 'Reserved' },
+            query, 
             { status: 'Available', username: null },
             { returnDocument: 'after' } 
         );
 
         if (reservation) {
-            res.json({ success: true, message: "Reservation cancelled successfully!" });
+            res.json({ 
+                success: true, 
+                message: isAdmin ? `Reservation cancelled by Admin.` : "Reservation cancelled successfully!" 
+            });
         } else {
-            res.status(400).json({ success: false, message: "Could not cancel. This slot may not belong to you." });
+            res.status(400).json({ 
+                success: false, 
+                message: "Could not cancel. Slot not found or unauthorized." 
+            });
         }
+
     } catch (error) {
         res.status(500).json({ error: "Failed to process cancellation." });
     }

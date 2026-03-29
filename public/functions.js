@@ -175,19 +175,29 @@ $(document).on("click", ".reserve_spot", async function() {
 
 // Cancel Spot Button
 $(document).on("click", ".cancel_spot", async function() {
-    if(!confirm("Are you sure you want to cancel this reservation?")) return;
 
     const btn = $(this);
-    const date = btn.data("date");
-    const time = btn.data("time");
-    const lab_id = btn.data("lab");
-    const station = btn.data("station");
+    const targetUser = btn.data("username"); 
+    
+    const confirmMsg = targetUser 
+        ? `Are you sure you want to cancel the reservation for ${targetUser}?` 
+        : "Are you sure you want to cancel this reservation?";
+        
+    if(!confirm(confirmMsg)) return;
+
+    const payload = {
+        date: btn.data("date"),
+        time: btn.data("time"),
+        lab_id: btn.data("lab"),
+        station: btn.data("station"),
+        targetUsername: targetUser 
+    };
 
     try {
         const response = await fetch('/api/cancel', {
             method: 'PATCH', 
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ date, time, lab_id, station })
+            body: JSON.stringify(payload)
         });
         
         const result = await response.json();
@@ -198,8 +208,10 @@ $(document).on("click", ".cancel_spot", async function() {
                 document.querySelector('.search-btn').click(); 
             } else if(window.location.pathname.includes('/profile')) {
                 fetchAndRenderUserReservations(); 
+            } else if(window.location.pathname.includes('/admin_view')) {
+                fetchAndRenderAdminDashboard();
             } else {
-                renderLabTables(); 
+                renderLabTables();
             }
         } else {
             alert(result.message || "Failed to cancel reservation.");
@@ -207,6 +219,63 @@ $(document).on("click", ".cancel_spot", async function() {
     } catch (error) {
         console.error("Error cancelling reservation:", error);
         alert("An error occurred while communicating with the database.");
+    }
+});
+
+//For Admin Features
+async function fetchAndRenderAdminDashboard() {
+    const tableBody = document.getElementById('admin-reservations-body');
+    if (!tableBody) return;
+
+    try {
+        const response = await fetch('/api/all-reservations');
+        const reservations = await response.json();
+        
+        const activeReservations = reservations.filter(res => res.status === "Reserved");
+
+        tableBody.innerHTML = "";
+
+        if (activeReservations.length === 0) {
+            tableBody.innerHTML = "<tr><td colspan='6' class='center-text'>No active reservations in the system.</td></tr>";
+            return;
+        }
+
+        const labNames = {
+            "lab-a": "Computer Lab A",
+            "lab-b": "Computer Lab B",
+            "mac-lab-a": "Mac Lab A", 
+            "lab-c": "Computer Lab C", 
+            "mac-lab-b": "Mac Lab B"
+        };
+
+        activeReservations.forEach(slot => {
+            const row = `
+                <tr>
+                    <td>${slot.username}</td>
+                    <td>${slot.date}</td>
+                    <td>${slot.time}</td>
+                    <td>${labNames[slot.lab_id] || slot.lab_id}</td>
+                    <td>${slot.station}</td>
+                    <td class="center-text">
+                        <button class="cancel_spot cancel-btn" 
+                            data-date="${slot.date}" 
+                            data-time="${slot.time}" 
+                            data-lab="${slot.lab_id}" 
+                            data-station="${slot.station}"
+                            data-username="${slot.username}">Admin Cancel</button>
+                    </td>
+                </tr>
+            `;
+            tableBody.innerHTML += row;
+        });
+    } catch (error) {
+        console.error("Error fetching admin reservations:", error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('admin-reservations-body')) {
+        fetchAndRenderAdminDashboard();
     }
 });
 
