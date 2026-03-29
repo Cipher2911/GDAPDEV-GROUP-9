@@ -312,7 +312,7 @@ app.patch('/api/cancel', async (req, res) => {
         let query = { date, time, lab_id, station, status: 'Reserved' };
 
         if (!isAdmin) {
-            query.username = currentUser.username;
+            query.username = myUsername
         } else if (targetUsername) {
             query.username = targetUsername;
         }
