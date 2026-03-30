@@ -1,4 +1,4 @@
-PACKAGES AND LIBRARIES USED FOR ANIMOSYNC
+PACKAGES, CORE TECHNOLOGIES AND LIBRARIES USED FOR ANIMOSYNC
 
     1.) NodeJS
         To install Node.js
@@ -17,7 +17,7 @@ PACKAGES AND LIBRARIES USED FOR ANIMOSYNC
 
 ACCESSING THE WEBSITE: 
 
-    1.) All the listed packages in this README file, except for Node.js, has already been listed in the package.json file of this folder. 
+    1.) All the listed npm packages in this README file has already been listed in the package.json file of this folder. 
     2.) Run the CMD of this file directory and type npm install. It will install all the packages needed for AnimoSync. 
     3.) Open VS Code to access the files. 
     4.) Open the VS Code Terminal. 
