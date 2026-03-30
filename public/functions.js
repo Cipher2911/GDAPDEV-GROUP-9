@@ -206,7 +206,8 @@ $(document).on("click", ".cancel_spot", async function() {
             alert(result.message);
             if (window.location.pathname.includes('/search')) {
                 document.querySelector('.search-btn').click(); 
-            } else if(window.location.pathname.includes('/profile')) {
+            } else if(window.location.pathname.includes('/my-reservations') ||
+             window.location.pathname.includes('/profile')){
                 fetchAndRenderUserReservations(); 
             } else if(window.location.pathname.includes('/admin_view')) {
                 fetchAndRenderAdminDashboard();
