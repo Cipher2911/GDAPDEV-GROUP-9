@@ -140,25 +140,34 @@ function statusColor(){
 }
 
 //Reserve This Spot Button 
-$(document).on("click", ".reserve_spot", async function() {
-    const btn = $(this);
+$(document).on("click", ".reserve_spot", async function(){
 
-    const date = btn.data("date");
-    const time = btn.data("time");
-    const lab_id = btn.data("lab");
-    const station = btn.data("station");
+    const confirmReservation = confirm("Are you sure you want to reserve this spot?");
+    if (!confirmReservation) {
+        return; 
+    }
+
+    const btn = $(this); 
+
+    const lab_details = {
+        date: btn.data("date"),
+        time: btn.data("time"),
+        lab_id: btn.data("lab"),
+        station: btn.data("station"),
+        is_anonymous: $("#anon-checkbox").is(":checked")
+    }; 
 
     try {
         const response = await fetch('/api/reserve', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ date, time, lab_id, station })
+            body: JSON.stringify(lab_details)
         });
         
         const result = await response.json();
 
         if (result.success) {
-            alert(`Spot Reserved!\n\nStation: ${station}\nTime: ${time}\n`);
+            alert(`Spot Reserved!\n\nStation: ${lab_details.station}\nTime: ${lab_details.time}\n\n${result.message}\n`);
             if (window.location.pathname.includes('/search')) {
                 document.querySelector('.search-btn').click(); 
             } else {
@@ -185,7 +194,7 @@ $(document).on("click", ".cancel_spot", async function() {
         
     if(!confirm(confirmMsg)) return;
 
-    const payload = {
+    const lab_details = {
         date: btn.data("date"),
         time: btn.data("time"),
         lab_id: btn.data("lab"),
@@ -197,7 +206,7 @@ $(document).on("click", ".cancel_spot", async function() {
         const response = await fetch('/api/cancel', {
             method: 'PATCH', 
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(lab_details)
         });
         
         const result = await response.json();
@@ -340,10 +349,19 @@ async function renderLabTables() {
             bookings.forEach(booking => {
                 let userDisplay = "-";
 
-                if (booking.status === "Reserved" && booking.username) {
-                    userDisplay = `<a href="/profile?user=${booking.username}">${booking.username}</a>`;
-                } else if (booking.status === "Reserved") {
-                    userDisplay = `<em>Anonymous</em>`;
+                if (booking.status === "Reserved") {
+                    
+                    if (booking.is_anonymous) {
+                        if (booking.isAdmin || booking.isMine) {
+                            userDisplay = `<a href="/profile?user=${booking.username}">${booking.username}</a> <span style="font-size:0.8em; color:gray;">(Anon)</span>`;
+                        } else {
+                            userDisplay = `<em>Anonymous</em>`;
+                        }
+                    } else if (booking.username) {
+                        userDisplay = `<a href="/profile?user=${booking.username}">${booking.username}</a>`;
+                    } else {
+                        userDisplay = `<em>Anonymous</em>`;
+                    }
                 }
 
                 let buttonHtml = "";

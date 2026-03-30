@@ -259,12 +259,12 @@ app.post('/api/reserve', async (req, res) => {
     if (!req.session.user) return res.status(401).json({ error: "Not logged in" });
 
     try {
-        const { date, time, lab_id, station } = req.body;
+        const { date, time, lab_id, station, is_anonymous } = req.body;
         const myUsername = req.session.user.username; 
 
         const reservation = await Reservation.findOneAndUpdate(
             { date, time, lab_id, station, status: 'Available' },
-            { status: 'Reserved', username: myUsername },
+            { status: 'Reserved', username: myUsername, is_anonymous: is_anonymous || false },
             { returnDocument: 'after' } 
         );
 
@@ -327,7 +327,7 @@ app.patch('/api/cancel', async (req, res) => {
 
         const reservation = await Reservation.findOneAndUpdate(
             query, 
-            { status: 'Available', username: null },
+            { status: 'Available', username: null, is_anonymous: false },
             { returnDocument: 'after' } 
         );
 

@@ -31,7 +31,7 @@ const lab_schema = new mongoose.Schema({
     lab_id: { type: String, required: true, unique: true }, 
     name: { type: String, required: true },                
     type: { type: String, required: true },                 
-    stations: [{ type: String }]                            
+    stations: [{ type: String }]                       
 });
 
 const Lab = mongoose.model('Lab', lab_schema);
@@ -43,12 +43,13 @@ const reservation_schema = new mongoose.Schema({
     lab_id: { type: String, required: true },
     station: { type: String, required: true },
     status: { type: String, enum: ['Available', 'Reserved', 'Unavailable'], default: 'Available' },
-    username: { type: String, default: null } 
+    username: { type: String, default: null }, 
+    is_anonymous: { type: Boolean, default: false }
 });
 
 const Reservation = mongoose.model('Reservation', reservation_schema);
 
-// Export the models using CommonJS
+// Exporting the Models
 module.exports = {
     User,
     Admin, 

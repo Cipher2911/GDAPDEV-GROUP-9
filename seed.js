@@ -58,7 +58,7 @@ connectToMongo(async (err) => {
             { date: "Mar 25, 2026", time: "10:30 AM - 11:00 AM", lab_id: "lab-a", station: "SPC-05", status: "Available" },
             
             // Lab B slots
-            { date: "Mar 26, 2026", time: "9:00 AM - 10:00 AM", lab_id: "lab-b", station: "LIB-01", status: "Reserved" }, 
+            { date: "Mar 26, 2026", time: "9:00 AM - 10:00 AM", lab_id: "lab-b", station: "LIB-01", status: "Reserved", username: "mark", is_anonymous: true }, 
             { date: "Mar 26, 2026", time: "9:00 AM - 10:00 AM", lab_id: "lab-b", station: "LIB-02", status: "Available" },
             { date: "Mar 26, 2026", time: "9:00 AM - 9:30 AM", lab_id: "lab-b", station: "LIB-03", status: "Available" },
             { date: "Mar 26, 2026", time: "10:00 AM - 11:00 AM", lab_id: "lab-b", station: "LIB-04", status: "Reserved", username: "hermione" },
@@ -69,20 +69,20 @@ connectToMongo(async (err) => {
             { date: "Mar 27, 2026", time: "9:00 AM - 10:00 AM", lab_id: "mac-lab-a", station: "MCA-02", status: "Reserved", username: "linus" },
             { date: "Mar 27, 2026", time: "10:00 AM - 11:00 AM", lab_id: "mac-lab-a", station: "MCA-03", status: "Available" },
             { date: "Mar 27, 2026", time: "2:00 PM - 2:30 PM", lab_id: "mac-lab-a", station: "MCA-04", status: "Available" },
-            { date: "Mar 27, 2026", time: "3:00 PM - 4:30 PM", lab_id: "mac-lab-a", station: "MCA-04", status: "Reserved" },
+            { date: "Mar 27, 2026", time: "3:00 PM - 4:30 PM", lab_id: "mac-lab-a", station: "MCA-04", status: "Reserved", username: "linus", is_anonymous: true },
 
             // Lab C Slots 
             { date: "Mar 28, 2026", time: "12:00 PM - 1:00 PM", lab_id: "lab-c", station: "EPC-01", status: "Reserved", username: "felix" },
             { date: "Mar 28, 2026", time: "2:00 PM - 3:00 PM", lab_id: "lab-c", station: "EPC-02", status: "Available" },
             { date: "Mar 28, 2026", time: "3:00 PM - 4:00 PM", lab_id: "lab-c", station: "EPC-03", status: "Available" },
-            { date: "Mar 28, 2026", time: "4:00 PM - 4:30 PM", lab_id: "lab-c", station: "EPC-04", status: "Reserved" },
-            { date: "Mar 28, 2026", time: "5:30 PM - 6:00 PM", lab_id: "lab-c", station: "EPC-04", status: "Reserved" },
+            { date: "Mar 28, 2026", time: "4:00 PM - 4:30 PM", lab_id: "lab-c", station: "EPC-04", status: "Reserved", username: "mark", is_anonymous: true},
+            { date: "Mar 28, 2026", time: "5:30 PM - 6:00 PM", lab_id: "lab-c", station: "EPC-04", status: "Available" },
 
             //Mac Lab B slots
             { date: "Mar 29, 2026", time: "4:00 PM - 5:00 PM", lab_id: "mac-lab-b", station: "MCB-01", status: "Reserved", username: "mark" },
             { date: "Mar 29, 2026", time: "4:00 PM - 5:00 PM", lab_id: "mac-lab-b", station: "MCB-02", status: "Available"},
             { date: "Mar 29, 2026", time: "6:00 PM - 7:00 PM", lab_id: "mac-lab-b", station: "MCB-03", status: "Reserved", username: "linus" },
-            { date: "Mar 29, 2026", time: "8:00 PM - 8:30 PM", lab_id: "mac-lab-b", station: "MCB-04", status: "Reserved" }, 
+            { date: "Mar 29, 2026", time: "8:00 PM - 8:30 PM", lab_id: "mac-lab-b", station: "MCB-04", status: "Available" }, 
             { date: "Mar 29, 2026", time: "9:00 PM - 9:30 PM", lab_id: "mac-lab-b", station: "MCB-04", status: "Available" }, 
 
         ]);
