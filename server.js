@@ -37,6 +37,12 @@ app.use(session({
     })
 }));
 
+app.use((req, res, next) => {
+    res.locals.user = req.session?.user || null;
+    res.locals.isAdmin = req.session?.isAdmin || false;
+    next();
+});
+
 // GET Methods
 app.get('/', (req, res) => res.render('login', { hideNav: true }));
 app.get('/sign_up', (req, res) => res.render('sign_up', { hideNav: true }));
@@ -70,6 +76,15 @@ app.get('/profile', async (req, res) => {
 
     res.render('user_profile', { isOwnProfile });
 
+});
+
+app.get('/admin_profile', (req, res) => {
+
+    if (!req.session.user || !req.session.isAdmin) {
+        return res.redirect('/'); 
+    }
+    
+    res.render('admin_profile'); 
 });
 
 app.get('/my-reservations', (req, res) => {
@@ -224,7 +239,14 @@ app.post('/sign_up', async (req, res) => {
             });
         }
 
-        const newAvatar = name.substring(0, 2).toUpperCase();
+        let newAvatar = "";
+        const nameParts = name.trim().split(/\s+/); 
+        
+        if (nameParts.length > 1) {
+            newAvatar = (nameParts[0][0] + nameParts[nameParts.length - 1][0]).toUpperCase();
+        } else {
+            newAvatar = name.substring(0, 2).toUpperCase();
+        }
 
         const saltRounds = 10; 
         const hashedPassword = await bcrypt.hash(password, saltRounds);

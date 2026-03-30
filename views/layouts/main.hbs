@@ -15,8 +15,13 @@
             <div class="dropdown">
                 <button class="dropbtn">Profile ▼</button>
                 <div class="dropdown-content">
-                    <a href="/profile">View Profile</a>
-                    <a href="/my-reservations">My Reservations</a>
+                    {{#if isAdmin}}
+                        <a href="/admin_profile">Admin Profile</a>
+                        <a href="/admin_view">Admin Dashboard</a>
+                    {{else}}
+                        <a href="/profile">View Profile</a>
+                        <a href="/my-reservations">My Reservations</a>
+                    {{/if}}
                 </div>
             </div>
 
