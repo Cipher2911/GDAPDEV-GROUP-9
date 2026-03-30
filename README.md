@@ -1,40 +1,23 @@
 PACKAGES AND LIBRARIES USED FOR ANIMOSYNC
 
-1.) Download the Needed Files 
+    1.) NodeJS
+        To install Node.js
+        a.) Go to this link  https://nodejs.org/en/ to download Node JS
+        b.) Confirm your NodeJS Installation by typing in CMD node -v 
+    2.) Express 
+    3.) Handlebars
+    4.) MongoDB
+    5.) Mongoose 
+    6.) Session
+    7.) Bycrypt for Password hashing
+    8.) Dotenv for Environment Variables
+    9.) Connect-mongo for Data Persistence
 
-    a.) Install NodeJS
-        i.) Go to this link  https://nodejs.org/en/ to download Node JS
-        ii.) Confirm your NodeJS Installation by typing in CMD node -v 
-
-    b.) Install Express 
-        i.) Run the CMD of the file directory of your project
-        ii.) Type npm install express in the CMD 
-
-    c.) Install Handlebars
-        i.) Run the CMD of the file directory of your project
-        ii.) Type npm install express-handlebars
-
-    d.) Install MongoDB
-        
-    e.) Install Mongoose 
-        i.) Run the command npm init in CMD of your project directory. 
-        ii.) Run the commmand npm install mongoose in CMD of your project directory. 
-
-    f.) Install Session 
-        i.) Run the CMD of the file directory of your project. 
-        ii.) Type npm install express-session. 
-
-    g.) Install bcrypt for Password Hashing 
-        i.) Run the CMD of the file directory of your project. 
-        ii.) Type npm install bcrypt. 
-    
-    h.) Install dotenv for adding environment variables
-        i.) Run the CMD of the file directory of your project. 
-        ii.) Type npm install dotenv. 
+    NOTE: All packages and libraries listed here are in the about page of the website. 
 
 ACCESSING THE WEBSITE: 
 
-    1.) All the listed packages in this README file has already been listed in the package.json file of this folder. 
+    1.) All the listed packages in this README file, except for Node.js, has already been listed in the package.json file of this folder. 
     2.) Run the CMD of this file directory and type npm install. It will install all the packages needed for AnimoSync. 
     3.) Open VS Code to access the files. 
     4.) Open the VS Code Terminal. 
