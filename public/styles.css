@@ -444,3 +444,24 @@ ul {
     line-height: 1.8; 
     font-size: 16px;
 }
+
+/* Admin Management */ 
+
+.admin{
+    display: flex; 
+    gap: 20px; 
+    align-items: center; 
+    justify-content: center;
+    margin-bottom: 20px; 
+}
+
+.admin-lab-dropdown{
+    padding: 5px;
+}
+
+#admin-filter-input{
+    padding: 5px; 
+    width: 250px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px;
+}

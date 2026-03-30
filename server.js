@@ -388,10 +388,12 @@ connectToMongo((err) => {
             const requestedLabId = req.params.labId; 
             const reservations = await Reservation.find({ lab_id: requestedLabId }).lean();
             const currentUser = req.session.user ? req.session.user.username : null;
+            const isAdmin = req.session.isAdmin || false;
 
             const mappedReservations = reservations.map(res => ({
                 ...res,
-                isMine: res.username === currentUser
+                isMine: res.username === currentUser, 
+                isAdmin: isAdmin 
             }));
             res.json(mappedReservations); 
 

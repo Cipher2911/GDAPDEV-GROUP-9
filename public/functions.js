@@ -224,58 +224,93 @@ $(document).on("click", ".cancel_spot", async function() {
 });
 
 //For Admin Features
-async function fetchAndRenderAdminDashboard() {
-    const tableBody = document.getElementById('admin-reservations-body');
-    if (!tableBody) return;
+function showAdminLabTable() {
+    const select = document.getElementById("admin-lab-select");
+    if(!select) return;
+    
+    const val = select.value;
+    
+    document.querySelectorAll(".lab-section").forEach(el => el.classList.add("hidden"));
 
+    if (val === "A") document.getElementById("admin-table-lab-a").classList.remove("hidden");
+    else if (val === "B") document.getElementById("admin-table-lab-b").classList.remove("hidden");
+    else if (val === "Mac A") document.getElementById("admin-table-mac-lab-a").classList.remove("hidden");
+    else if (val === "C") document.getElementById("admin-table-lab-c").classList.remove("hidden");
+    else if (val === "Mac B") document.getElementById("admin-table-mac-lab-b").classList.remove("hidden");
+}
+
+function filterAdminTables() {
+    const input = document.getElementById("admin-filter-input");
+    if (!input) return;
+    
+    const filterText = input.value.toLowerCase();
+    const tableRows = document.querySelectorAll(".lab-section tbody tr");
+
+    tableRows.forEach(row => {
+        if (row.cells.length === 1) return;
+
+        const rowText = row.textContent.toLowerCase();
+        if (rowText.includes(filterText)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+}
+
+async function fetchAndRenderAdminDashboard() {
     try {
         const response = await fetch('/api/all-reservations');
         const reservations = await response.json();
-        
+    
         const activeReservations = reservations.filter(res => res.status === "Reserved");
 
-        tableBody.innerHTML = "";
+        const labIds = ["lab-a", "lab-b", "mac-lab-a", "lab-c", "mac-lab-b"];
 
-        if (activeReservations.length === 0) {
-            tableBody.innerHTML = "<tr><td colspan='6' class='center-text'>No active reservations in the system.</td></tr>";
-            return;
-        }
-
-        const labNames = {
-            "lab-a": "Computer Lab A",
-            "lab-b": "Computer Lab B",
-            "mac-lab-a": "Mac Lab A", 
-            "lab-c": "Computer Lab C", 
-            "mac-lab-b": "Mac Lab B"
-        };
+        labIds.forEach(id => {
+            const tbody = document.getElementById(`admin-body-${id}`);
+            if (tbody) tbody.innerHTML = "";
+        });
 
         activeReservations.forEach(slot => {
-            const row = `
-                <tr>
-                    <td>${slot.username}</td>
-                    <td>${slot.date}</td>
-                    <td>${slot.time}</td>
-                    <td>${labNames[slot.lab_id] || slot.lab_id}</td>
-                    <td>${slot.station}</td>
-                    <td class="center-text">
-                        <button class="cancel_spot cancel-btn" 
-                            data-date="${slot.date}" 
-                            data-time="${slot.time}" 
-                            data-lab="${slot.lab_id}" 
-                            data-station="${slot.station}"
-                            data-username="${slot.username}">Admin Cancel</button>
-                    </td>
-                </tr>
-            `;
-            tableBody.innerHTML += row;
+            const tbody = document.getElementById(`admin-body-${slot.lab_id}`);
+            if (tbody) {
+                const actionBtn = `<button class="cancel_spot cancel-btn" 
+                    data-date="${slot.date}" 
+                    data-time="${slot.time}" 
+                    data-lab="${slot.lab_id}" 
+                    data-station="${slot.station}"
+                    data-username="${slot.username}">Admin Cancel</button>`;
+
+                const row = `
+                    <tr>
+                        <td><a href="/profile?user=${slot.username}">${slot.username}</a></td>
+                        <td>${slot.date}</td>
+                        <td>${slot.time}</td>
+                        <td>${slot.station}</td>
+                        <td class="center-text">${actionBtn}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            }
         });
+
+        labIds.forEach(id => {
+            const tbody = document.getElementById(`admin-body-${id}`);
+            if (tbody && tbody.innerHTML === "") {
+                tbody.innerHTML = `<tr><td colspan="5" class="center-text">No active reservations.</td></tr>`;
+            }
+        });
+
+        filterAdminTables();
+
     } catch (error) {
         console.error("Error fetching admin reservations:", error);
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('admin-reservations-body')) {
+    if (document.getElementById('admin-lab-select')) {
         fetchAndRenderAdminDashboard();
     }
 });

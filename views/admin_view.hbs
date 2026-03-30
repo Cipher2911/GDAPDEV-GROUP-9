@@ -1,22 +1,73 @@
 <div class="container">
     <h2>Admin Management Dashboard</h2>
-    <p>Welcome, {{user.name}}! Manage all current student reservations below.</p>
+    <p>Welcome, {{user.name}}! Manage all current system reservations below.</p>
 
-    <div class="search-box" style="margin-top: 20px;">
-        <h3>All Active System Reservations</h3>
-        <table class="schedule-table" style="width: 100%; margin-top: 15px;">
+    <div class="admin">
+        <div>
+            <label for="admin-lab-select"><strong>Choose a Lab:</strong></label>
+            <select id="admin-lab-select" class="admin-lab-dropdown" onchange="showAdminLabTable()">
+                <option value="A">Computer Lab A (Science Bldg)</option>
+                <option value="B">Computer Lab B (Library)</option>
+                <option value="Mac A">Mac Lab A (Design Dept)</option>
+                <option value="C">Computer Lab C (Engineering Bldg)</option>
+                <option value="Mac B">Mac Lab B (Arts Dept)</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="admin-filter-input"><strong>Filter Records:</strong></label>
+            <input type="text" id="admin-filter-input" placeholder="Search student, date, or station..." onkeyup="filterAdminTables()">
+        </div>
+    </div>
+
+    <div id="admin-table-lab-a" class="lab-section">
+        <h3>Reservations: Computer Lab A</h3>
+        <table class="schedule-table">
             <thead>
-                <tr>
-                    <th>Student Username</th>
-                    <th>Date</th>
-                    <th>Time Slot</th>
-                    <th>Lab Location</th>
-                    <th>Station</th>
-                    <th>Action</th>
-                </tr>
+                <tr><th>Student</th><th>Date</th><th>Time Slot</th><th>Station</th><th>Action</th></tr>
             </thead>
-            <tbody id="admin-reservations-body">
-                </tbody>
+            <tbody id="admin-body-lab-a"></tbody>
         </table>
     </div>
+
+    <div id="admin-table-lab-b" class="lab-section hidden">
+        <h3>Reservations: Computer Lab B</h3>
+        <table class="schedule-table">
+            <thead>
+                <tr><th>Student</th><th>Date</th><th>Time Slot</th><th>Station</th><th>Action</th></tr>
+            </thead>
+            <tbody id="admin-body-lab-b"></tbody>
+        </table>
+    </div>
+
+    <div id="admin-table-mac-lab-a" class="lab-section hidden">
+        <h3>Reservations: Mac Lab A</h3>
+        <table class="schedule-table">
+            <thead>
+                <tr><th>Student</th><th>Date</th><th>Time Slot</th><th>Station</th><th>Action</th></tr>
+            </thead>
+            <tbody id="admin-body-mac-lab-a"></tbody>
+        </table>
+    </div>
+
+    <div id="admin-table-lab-c" class="lab-section hidden">
+        <h3>Reservations: Computer Lab C</h3>
+        <table class="schedule-table">
+            <thead>
+                <tr><th>Student</th><th>Date</th><th>Time Slot</th><th>Station</th><th>Action</th></tr>
+            </thead>
+            <tbody id="admin-body-lab-c"></tbody>
+        </table>
+    </div>
+
+    <div id="admin-table-mac-lab-b" class="lab-section hidden">
+        <h3>Reservations: Mac Lab B</h3>
+        <table class="schedule-table">
+            <thead>
+                <tr><th>Student</th><th>Date</th><th>Time Slot</th><th>Station</th><th>Action</th></tr>
+            </thead>
+            <tbody id="admin-body-mac-lab-b"></tbody>
+        </table>
+    </div>
+
 </div>
