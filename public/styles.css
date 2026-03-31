@@ -17,6 +17,11 @@ body {
     font-weight: bold;
 }
 
+#logo img {
+    height: 50px;
+    width: auto;
+}
+
 #logout-link {
     float: right;
     color: white;
