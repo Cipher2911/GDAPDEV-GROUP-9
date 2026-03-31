@@ -121,6 +121,32 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+// Toggle Password Visibility
+document.addEventListener("DOMContentLoaded", function() {
+    
+    const toggleLoginPass = document.getElementById("toggle-login-password");
+    const loginPassInput = document.getElementById("password");
+
+    if (toggleLoginPass && loginPassInput) {
+        toggleLoginPass.addEventListener("change", function() {
+            const type = this.checked ? "text" : "password";
+            loginPassInput.setAttribute("type", type);
+        });
+    }
+
+    const toggleSignupPass = document.getElementById("toggle-signup-password");
+    const signupPassInput = document.getElementById("password"); 
+    const signupConfirmPassInput = document.getElementById("confirm-password");
+
+    if (toggleSignupPass && signupPassInput && signupConfirmPassInput) {
+        toggleSignupPass.addEventListener("change", function() {
+            const type = this.checked ? "text" : "password";
+            signupPassInput.setAttribute("type", type);
+            signupConfirmPassInput.setAttribute("type", type);
+        });
+    }
+});
+
 //Link to a User 
 $(document).ready(async function() {
     if (window.location.pathname.includes("/profile")) {
