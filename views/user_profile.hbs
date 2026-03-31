@@ -1,5 +1,9 @@
 <div class="header">
-    <a href="/home" class="login-link">Back to Home</a>
+    {{#if isAdmin}}
+        <a href="/admin_view" class="login-link">Back to Dashboard</a>
+    {{else}}
+        <a href="/home" class="login-link">Back to Home</a>
+    {{/if}}
 </div>
 
 <div class="container">

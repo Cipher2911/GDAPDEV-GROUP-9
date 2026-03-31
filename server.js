@@ -160,6 +160,10 @@ app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
+
+        //Test for Error Handling
+        //throw new Error("Database Meltdown Simulation!");
+
         let user = await User.findOne({ email: username });
         let isAdmin = false; 
 
@@ -207,6 +211,9 @@ app.post('/login', async (req, res) => {
 app.post('/sign_up', async (req, res) => {
 
     try{ 
+        //Test for Error Handling
+        //throw new Error("Database Meltdown Simulation!");
+
         const { name, username, dlsu_id, college, email, password } = req.body; 
 
         if (password !== req.body['confirm-password']) {
