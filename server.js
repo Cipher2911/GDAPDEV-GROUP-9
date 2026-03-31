@@ -284,6 +284,34 @@ app.post('/api/reserve', async (req, res) => {
         const { date, time, lab_id, station, is_anonymous } = req.body;
         const myUsername = req.session.user.username; 
 
+        const existingSlot = await Reservation.findOne({ date, time, lab_id, station });
+
+        if (!existingSlot) {
+            return res.status(404).json({ success: false, message: "This slot does not exist in the database." });
+        }
+
+        if (existingSlot.status === 'Reserved' && existingSlot.username === myUsername) {
+            return res.status(400).json({ 
+                success: false, 
+                message: "You have already reserved this exact spot!" 
+            });
+        }
+
+        const concurrentReservation = await Reservation.findOne({ date, time, username: myUsername, status: 'Reserved' });
+        if (concurrentReservation) {
+            return res.status(400).json({ 
+                success: false, 
+                message: `You already have a reservation at this time in ${concurrentReservation.lab_id} (Station ${concurrentReservation.station}).` 
+            });
+        }
+
+        if (existingSlot.status === 'Reserved') {
+            return res.status(400).json({ 
+                success: false, 
+                message: "Sorry, someone else just reserved this spot before you!" 
+            });
+        }
+
         const reservation = await Reservation.findOneAndUpdate(
             { date, time, lab_id, station, status: 'Available' },
             { status: 'Reserved', username: myUsername, is_anonymous: is_anonymous || false },
