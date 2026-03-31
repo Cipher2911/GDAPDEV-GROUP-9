@@ -103,7 +103,6 @@ document.addEventListener("DOMContentLoaded", function() {
     if (logoutLink) {
         logoutLink.addEventListener("click", function(event) {
             event.preventDefault(); 
-            const targetUrl = this.href; 
 
             Swal.fire({
                 title: 'Leaving so soon?',
@@ -115,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 confirmButtonText: 'Log Out'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = targetUrl;
+                    window.location.href = '/logout';
                 }
             });
         });

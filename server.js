@@ -50,7 +50,25 @@ app.use((req, res, next) => {
 // GET Methods
 app.get('/', (req, res) => res.render('login', { hideNav: true }));
 app.get('/sign_up', (req, res) => res.render('sign_up', { hideNav: true }));
-app.get('/home', (req, res) => res.render('home'));
+
+app.get('/home', (req, res) => {
+    if (!req.session.user) {
+        return res.redirect('/'); 
+    }
+    res.render('home');
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Error destroying session:", err);
+            return res.status(500).send("Could not log out.");
+        }
+
+        res.clearCookie('connect.sid'); 
+        res.redirect('/');
+    });
+});
 
 app.get('/about_page', (req, res) => {
     res.render('about_page', { user: req.session?.user });
