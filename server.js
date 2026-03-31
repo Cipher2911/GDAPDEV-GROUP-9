@@ -14,7 +14,7 @@ const { connectToMongo } = require('./models/conn');
 const { User, Admin, Lab, Reservation } = require('./models/models');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.engine('hbs', engine({ extname: '.hbs', defaultLayout: 'main' }));
 app.set('view engine', 'hbs');

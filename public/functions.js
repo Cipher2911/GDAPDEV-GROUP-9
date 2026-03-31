@@ -477,7 +477,7 @@ async function renderLabTables() {
                 tbody.innerHTML += row;
             });
         } catch (error) {
-            
+
             console.error(`Error loading lab data for ${labId}:`, error);
             tbody.innerHTML = `<tr><td colspan='5' style='color: red; text-align: center;'>Failed to load reservations.</td></tr>`;
             
@@ -794,4 +794,33 @@ $(document).on("click", ".delete-profile-btn", async function() {
         console.error("Error deleting profile:", error);
         Swal.fire('Error', 'An error occurred while communicating with the server.', 'error');
     }
+});
+
+//Error Handling for Login and Sign Up
+document.addEventListener("DOMContentLoaded", function() {
+    
+
+    const warningElements = document.querySelectorAll(".warning-login");
+    
+    warningElements.forEach(warningElement => {
+  
+        if (warningElement.textContent.trim() !== "" && warningElement.id !== "client-error") {
+            
+            let errorMessage = warningElement.textContent.trim();
+            
+            errorMessage = errorMessage.replace(/^Warning:\s*/i, '');
+
+            warningElement.style.display = "none";
+
+            const isSignUp = window.location.pathname.includes("sign_up");
+            const alertTitle = isSignUp ? "Sign Up Failed" : "Login Failed";
+
+            Swal.fire({
+                icon: 'error',
+                title: alertTitle,
+                text: errorMessage,
+                confirmButtonColor: '#007bff'
+            });
+        }
+    });
 });

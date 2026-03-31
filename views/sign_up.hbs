@@ -5,7 +5,9 @@
     <br>
 
     {{#if error}}
-        <div class="warning-login">{{error}}</div>
+        <div class="warning-login">
+            <strong>Warning:</strong> {{error}}
+        </div>
     {{/if}}
 
     <div id="client-error" class="warning-login" style="display: none;"></div>
