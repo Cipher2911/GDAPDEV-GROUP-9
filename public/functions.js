@@ -18,7 +18,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (!isValid) {
                 event.preventDefault();
-                alert("Please fill out all required fields before proceeding.");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Incomplete Fields',
+                    text: 'Please fill out all required fields before proceeding.',
+                    confirmButtonColor: '#007bff'
+                });
             }
         });
     }
@@ -69,8 +74,51 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
+                event.preventDefault();
                 errorDiv.style.display = "none";
+
+                Swal.fire({
+                    title: 'Create Account',
+                    text: "Are you sure all the provided details are correct?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745', 
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, create my account!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Submit the form manually after confirmation
+                        signupForm.submit();
+                    }
+                });
             }
+        });
+    }
+});
+
+// Log Out Confirmation
+document.addEventListener("DOMContentLoaded", function() {
+    const logoutLink = document.getElementById("logout-link");
+
+    if (logoutLink) {
+        logoutLink.addEventListener("click", function(event) {
+            event.preventDefault(); 
+            const targetUrl = this.href; 
+
+            Swal.fire({
+                title: 'Leaving so soon?',
+                text: "Are you sure you want to log out?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, log me out'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the logout route
+                    window.location.href = targetUrl;
+                }
+            });
         });
     }
 });
@@ -142,12 +190,21 @@ function statusColor(){
 //Reserve This Spot Button 
 $(document).on("click", ".reserve_spot", async function(){
 
-    const confirmReservation = confirm("Are you sure you want to reserve this spot?");
-    if (!confirmReservation) {
+    const btn = $(this); 
+
+    const confirm = await Swal.fire({
+        title: 'Confirm Reservation',
+        text: "Are you sure you want to reserve this spot?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Reserve'
+    });
+
+    if (!confirm.isConfirmed) {
         return; 
     }
-
-    const btn = $(this); 
 
     const lab_details = {
         date: btn.data("date"),
@@ -167,18 +224,31 @@ $(document).on("click", ".reserve_spot", async function(){
         const result = await response.json();
 
         if (result.success) {
-            alert(`Spot Reserved!\n\nStation: ${lab_details.station}\nTime: ${lab_details.time}\n\n${result.message}\n`);
-            if (window.location.pathname.includes('/search')) {
-                document.querySelector('.search-btn').click(); 
-            } else {
-                renderLabTables(); 
-            }
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'Spot Reserved!',
+                html: `Station: <b>${lab_details.station}</b><br>Time: <b>${lab_details.time}</b><br><br>${result.message}`,
+                confirmButtonColor: '#007bff'
+            }).then(() => {
+                if (window.location.pathname.includes('/search')) {
+                    document.querySelector('.search-btn').click(); 
+                } else {
+                    renderLabTables(); 
+                }
+            });
+
         } else {
-            alert(result.message || "Failed to reserve spot. You might not be logged in.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: result.message || "Failed to reserve spot. You might not be logged in.",
+                confirmButtonColor: '#007bff'
+            });
         }
     } catch (error) {
         console.error("Error making reservation:", error);
-        alert("An error occurred while communicating with the database.");
+        Swal.fire('Error', 'An error occurred while communicating with the database.', 'error');
     }
 });
 
@@ -192,7 +262,17 @@ $(document).on("click", ".cancel_spot", async function() {
         ? `Are you sure you want to cancel the reservation for ${targetUser}?` 
         : "Are you sure you want to cancel this reservation?";
         
-    if(!confirm(confirmMsg)) return;
+    const confirm = await Swal.fire({
+        title: 'Cancel Reservation?',
+        text: confirmMsg,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Confirm'
+    });
+
+    if(!confirm.isConfirmed) return;
 
     const lab_details = {
         date: btn.data("date"),
@@ -212,23 +292,23 @@ $(document).on("click", ".cancel_spot", async function() {
         const result = await response.json();
 
         if (result.success) {
-            alert(result.message);
-            if (window.location.pathname.includes('/search')) {
-                document.querySelector('.search-btn').click(); 
-            } else if(window.location.pathname.includes('/my-reservations') ||
-             window.location.pathname.includes('/profile')){
-                fetchAndRenderUserReservations(); 
-            } else if(window.location.pathname.includes('/admin_view')) {
-                fetchAndRenderAdminDashboard();
-            } else {
-                renderLabTables();
-            }
+            Swal.fire('Cancelled!', result.message, 'success').then(() => {
+                if (window.location.pathname.includes('/search')) {
+                    document.querySelector('.search-btn').click(); 
+                } else if(window.location.pathname.includes('/my-reservations') || window.location.pathname.includes('/profile')){
+                    fetchAndRenderUserReservations(); 
+                } else if(window.location.pathname.includes('/admin_view')) {
+                    fetchAndRenderAdminDashboard();
+                } else {
+                    renderLabTables();
+                }
+            });
         } else {
-            alert(result.message || "Failed to cancel reservation.");
+            Swal.fire('Error', result.message || "Failed to cancel reservation.", 'error');
         }
     } catch (error) {
         console.error("Error cancelling reservation:", error);
-        alert("An error occurred while communicating with the database.");
+        Swal.fire('Error', 'An error occurred while communicating with the database.', 'error');
     }
 });
 
@@ -655,9 +735,17 @@ document.addEventListener('DOMContentLoaded', () => {
 //Delete Profile Button 
 $(document).on("click", ".delete-profile-btn", async function() {
     
-    const confirmDelete = confirm("Are you absolutely sure you want to delete your profile? This action cannot be undone, and all your current reservations will be cancelled.");
+    const confirm = await Swal.fire({
+        title: 'Are you absolutely sure?',
+        text: "This action cannot be undone, and all your current reservations will be cancelled.",
+        icon: 'error',
+        showCancelButton: true,
+        confirmButtonColor: '#8b0000',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Yes, delete my profile'
+    });
     
-    if (!confirmDelete) return; 
+    if (!confirm.isConfirmed) return;
 
     try {
         const response = await fetch('/api/user/delete', {
@@ -668,13 +756,13 @@ $(document).on("click", ".delete-profile-btn", async function() {
         const result = await response.json();
 
         if (result.success) {
-            alert("Your profile has been permanently deleted.");
+            await Swal.fire('Deleted!', 'Your profile has been permanently deleted.', 'success');
             window.location.href = "/";
         } else {
-            alert(result.message || "Failed to delete profile.");
+            Swal.fire('Error', result.message || "Failed to delete profile.", 'error');
         }
     } catch (error) {
         console.error("Error deleting profile:", error);
-        alert("An error occurred while communicating with the server.");
+        Swal.fire('Error', 'An error occurred while communicating with the server.', 'error');
     }
 });
