@@ -286,7 +286,7 @@ app.post('/api/reserve', async (req, res) => {
 
     try {
         //Test for Error Handling
-        //throw new Error("Simulated database meltdown during reservation!");
+        //throw new Error("Database Meltdown Simulation!");
 
         const { date, time, lab_id, station, is_anonymous } = req.body;
         const myUsername = req.session.user.username; 
@@ -342,7 +342,7 @@ app.post('/api/search-slots', async (req, res) => {
     try {
 
         //Test for Error Handling
-        //throw new Error("Simulated database meltdown during reservation!");
+        //throw new Error("Database Meltdown Simulation!");
 
         const { lab, date, time } = req.body;
       
@@ -376,7 +376,7 @@ app.patch('/api/cancel', async (req, res) => {
     try {
 
         //Test for Error Handling
-        //throw new Error("Simulated database meltdown during reservation!");
+        //throw new Error("Database Meltdown Simulation!");
 
         const { date, time, lab_id, station, targetUsername } = req.body;
         const myUsername = req.session.user.username;
@@ -426,7 +426,7 @@ app.delete('/api/user/delete', async (req, res) => {
     try {
 
         //Test for Error Handling
-        //throw new Error("Simulated database meltdown during reservation!");
+        //throw new Error("Database Meltdown Simulation!");
 
         await Reservation.updateMany(
             { username: myUsername, status: 'Reserved' },
@@ -462,7 +462,9 @@ connectToMongo((err) => {
 
     app.get('/api/reservations/:labId', async (req, res) => {
         try {
-            
+            //Test for Error Handling
+            //throw new Error("Database Meltdown Simulation!");
+
             const requestedLabId = req.params.labId; 
             const reservations = await Reservation.find({ lab_id: requestedLabId }).lean();
             const currentUser = req.session.user ? req.session.user.username : null;

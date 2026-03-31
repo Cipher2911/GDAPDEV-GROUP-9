@@ -421,6 +421,11 @@ async function renderLabTables() {
 
         try {
             const response = await fetch(`/api/reservations/${labId}`);
+
+            if (!response.ok) {
+                throw new Error(`Server responded with status: ${response.status}`);
+            }
+
             const bookings = await response.json();
 
             tbody.innerHTML = ""; 
@@ -473,6 +478,17 @@ async function renderLabTables() {
             });
         } catch (error) {
             console.error(`Error loading lab data for ${labId}:`, error);
+
+            console.error(`Error loading lab data for ${labId}:`, error);
+            
+            tbody.innerHTML = `<tr><td colspan='5' style='color: red; text-align: center;'>Failed to load reservations.</td></tr>`;
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Connection Error',
+                text: 'We encountered an error loading the lab reservations. Please try refreshing the page.',
+                confirmButtonColor: '#007bff'
+            });
         }
     }
 
@@ -542,7 +558,7 @@ async function fetchAndRenderSlots(labFilter = "all", dateFilter = "", timeFilte
         console.error("Error fetching filtered slots:", error);
         const tableBody = document.getElementById('results-body');
         if (tableBody) {
-            tableBody.innerHTML = "<tr><td colspan='5' class='center-text' style='color: red;'>Failed to load slots. Please try again.</td></tr>";
+            tableBody.innerHTML = "<tr><td colspan='5' style='color: red; text-align: center;'>Failed to load slots. Please try again.</td></tr>";
         }
         
         Swal.fire({
