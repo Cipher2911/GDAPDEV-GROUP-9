@@ -112,10 +112,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 showCancelButton: true,
                 confirmButtonColor: '#28a745',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, log me out'
+                confirmButtonText: 'Log Out'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Redirect to the logout route
                     window.location.href = targetUrl;
                 }
             });
