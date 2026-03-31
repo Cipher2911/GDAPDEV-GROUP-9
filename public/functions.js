@@ -477,10 +477,8 @@ async function renderLabTables() {
                 tbody.innerHTML += row;
             });
         } catch (error) {
-            console.error(`Error loading lab data for ${labId}:`, error);
-
-            console.error(`Error loading lab data for ${labId}:`, error);
             
+            console.error(`Error loading lab data for ${labId}:`, error);
             tbody.innerHTML = `<tr><td colspan='5' style='color: red; text-align: center;'>Failed to load reservations.</td></tr>`;
             
             Swal.fire({
