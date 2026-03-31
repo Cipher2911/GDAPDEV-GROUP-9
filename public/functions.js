@@ -530,11 +530,27 @@ async function fetchAndRenderSlots(labFilter = "all", dateFilter = "", timeFilte
             })
         });
         
+        if (!response.ok) {
+            throw new Error(`Server responded with status: ${response.status}`);
+        }
+
         const availableSlots = await response.json();
       
         renderTable(availableSlots);
+
     } catch (error) {
         console.error("Error fetching filtered slots:", error);
+        const tableBody = document.getElementById('results-body');
+        if (tableBody) {
+            tableBody.innerHTML = "<tr><td colspan='5' class='center-text' style='color: red;'>Failed to load slots. Please try again.</td></tr>";
+        }
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Search Failed',
+            text: 'We encountered an error connecting to the database.',
+            confirmButtonColor: '#007bff'
+        });
     }
 }
 

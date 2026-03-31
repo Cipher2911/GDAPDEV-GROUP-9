@@ -285,6 +285,9 @@ app.post('/api/reserve', async (req, res) => {
     if (!req.session.user) return res.status(401).json({ error: "Not logged in" });
 
     try {
+        //Test for Error Handling
+        //throw new Error("Simulated database meltdown during reservation!");
+
         const { date, time, lab_id, station, is_anonymous } = req.body;
         const myUsername = req.session.user.username; 
 
@@ -337,6 +340,10 @@ app.post('/api/reserve', async (req, res) => {
 app.post('/api/search-slots', async (req, res) => {
 
     try {
+
+        //Test for Error Handling
+        //throw new Error("Simulated database meltdown during reservation!");
+
         const { lab, date, time } = req.body;
       
         let dbQuery = { status: 'Available' };
@@ -367,6 +374,10 @@ app.patch('/api/cancel', async (req, res) => {
     if (!req.session.user) return res.status(401).json({ error: "Not logged in" });
 
     try {
+
+        //Test for Error Handling
+        //throw new Error("Simulated database meltdown during reservation!");
+
         const { date, time, lab_id, station, targetUsername } = req.body;
         const myUsername = req.session.user.username;
         const isAdmin = req.session.isAdmin; 
@@ -413,6 +424,10 @@ app.delete('/api/user/delete', async (req, res) => {
     const myUsername = req.session.user.username;
 
     try {
+
+        //Test for Error Handling
+        //throw new Error("Simulated database meltdown during reservation!");
+
         await Reservation.updateMany(
             { username: myUsername, status: 'Reserved' },
             { status: 'Available', username: null }
@@ -447,6 +462,7 @@ connectToMongo((err) => {
 
     app.get('/api/reservations/:labId', async (req, res) => {
         try {
+            
             const requestedLabId = req.params.labId; 
             const reservations = await Reservation.find({ lab_id: requestedLabId }).lean();
             const currentUser = req.session.user ? req.session.user.username : null;
